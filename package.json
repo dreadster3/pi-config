@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Pi coding agent configuration — skills, extensions, prompts, and themes",
   "keywords": ["pi-package"],
+  "dependencies": {
+    "@mariozechner/pi-coding-agent": "^0.70.5"
+  },
   "pi": {
     "extensions": ["./extensions"],
     "skills": ["./skills"],
