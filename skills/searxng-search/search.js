@@ -2,7 +2,7 @@
 
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { Readability } from "@mozilla/readability";
 import { JSDOM, VirtualConsole } from "jsdom";
 import TurndownService from "turndown";
@@ -13,20 +13,26 @@ import { gfm } from "turndown-plugin-gfm";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 function loadConfig() {
-  // Priority: SEARXNG_URL env > config.local.json > config.json
+  // Priority: SEARXNG_URL env > user config.json > project config.json
   const envUrl = process.env.SEARXNG_URL?.trim();
   if (envUrl) return envUrl;
 
-  try {
-    const localConfig = JSON.parse(readFileSync(join(__dirname, "config.local.json"), "utf8"));
-    if (localConfig.searxngUrl) return localConfig.searxngUrl;
-  } catch {
-    // config.local.json doesn't exist or is invalid — fall through
+  // User-level config (~/.pi/agent/skills/<skill-name>/config.json)
+  const home = process.env.HOME;
+  if (home) {
+    const userConfigPath = join(home, ".pi", "agent", "skills", "searxng-search", "config.json");
+    try {
+      const userConfig = JSON.parse(readFileSync(userConfigPath, "utf8"));
+      if (userConfig.searxngUrl) return userConfig.searxngUrl;
+    } catch {
+      // User config doesn't exist — fall through
+    }
   }
 
+  // Project-level config (skill directory config.json)
   try {
-    const defaultConfig = JSON.parse(readFileSync(join(__dirname, "config.json"), "utf8"));
-    if (defaultConfig.searxngUrl) return defaultConfig.searxngUrl;
+    const projectConfig = JSON.parse(readFileSync(join(__dirname, "config.json"), "utf8"));
+    if (projectConfig.searxngUrl) return projectConfig.searxngUrl;
   } catch {
     // config.json doesn't exist — fall through
   }

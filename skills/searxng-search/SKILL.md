@@ -12,20 +12,30 @@ Web search using a locally-running [SearXNG](https://github.com/searxng/searxng)
 SearXNG URL is loaded with this priority:
 
 1. `SEARXNG_URL` environment variable
-2. `config.local.json` (gitignored — create from `config.local.json.example`)
-3. `config.json` (default — tracked in repo)
+2. User-level config: `~/.pi/agent/skills/searxng-search/config.json`
+3. Project-level config: `config.json` (in this repo)
 
 ### Configure your instance
 
+**User-level** (applies to all projects):
+
 ```bash
-cp config.local.json.example config.local.json
-# Edit config.local.json with your SearXNG URL
+mkdir -p ~/.pi/agent/skills/searxng-search
+cat > ~/.pi/agent/skills/searxng-search/config.json << EOF
+{
+  "searxngUrl": "https://searxng.intra.dreadster3.com"
+}
+EOF
 ```
+
+**Project-level** (overrides user config for this repo):
+
+Edit `config.json` in this directory.
 
 Or set the environment variable:
 
 ```bash
-export SEARXNG_URL="https://searxng.example.com"
+export SEARXNG_URL="https://searxng.intra.dreadster3.com"
 ```
 
 Install dependencies (run once):
