@@ -37,6 +37,33 @@ This file provides guidance for AI agents working on this repository.
 3. If the skill needs npm dependencies, add a `package.json` alongside
 4. Do **not** commit `node_modules/` — it is gitignored
 
+### Adding an extension
+
+1. Create a file under `extensions/<name>.ts`
+2. Export a default function that receives `ExtensionAPI`:
+
+```typescript
+import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { isToolCallEventType } from "@mariozechner/pi-coding-agent";
+
+export default function (pi: ExtensionAPI) {
+  pi.on("tool_call", async (event, ctx) => {
+    if (isToolCallEventType("bash", event)) {
+      // Hook into bash tool calls
+    }
+  });
+}
+```
+
+3. The extension is auto-discovered from the `extensions/` directory
+4. Run `npm run typecheck` to verify types before committing
+
+### npm Scripts
+
+- `npm install` — Install dependencies (including `@mariozechner/pi-coding-agent` for type hints)
+- `npm run typecheck` — Run TypeScript type checking (runs automatically on commit)
+- `npm run format` — Run Prettier to format all files
+
 ### package.json
 
 The root `package.json` is the pi-config manifest. It declares the four config directories and includes the `pi-package` keyword so `pi install git:...` can discover and install it.
