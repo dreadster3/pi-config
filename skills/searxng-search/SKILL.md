@@ -9,7 +9,24 @@ Web search using a locally-running [SearXNG](https://github.com/searxng/searxng)
 
 ## Setup
 
-SearXNG instance is pre-configured at `https://searxng`. No Docker setup needed.
+SearXNG URL is loaded with this priority:
+
+1. `SEARXNG_URL` environment variable
+2. `config.local.json` (gitignored — create from `config.local.json.example`)
+3. `config.json` (default — tracked in repo)
+
+### Configure your instance
+
+```bash
+cp config.local.json.example config.local.json
+# Edit config.local.json with your SearXNG URL
+```
+
+Or set the environment variable:
+
+```bash
+export SEARXNG_URL="https://searxng.example.com"
+```
 
 Install dependencies (run once):
 

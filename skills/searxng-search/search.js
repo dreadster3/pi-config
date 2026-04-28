@@ -1,9 +1,38 @@
 #!/usr/bin/env node
 
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 import { Readability } from "@mozilla/readability";
 import { JSDOM, VirtualConsole } from "jsdom";
 import TurndownService from "turndown";
 import { gfm } from "turndown-plugin-gfm";
+
+// ── Config loading ─────────────────────────────────────────────────────────
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+function loadConfig() {
+  // Priority: SEARXNG_URL env > config.local.json > config.json
+  const envUrl = process.env.SEARXNG_URL?.trim();
+  if (envUrl) return envUrl;
+
+  try {
+    const localConfig = JSON.parse(readFileSync(join(__dirname, "config.local.json"), "utf8"));
+    if (localConfig.searxngUrl) return localConfig.searxngUrl;
+  } catch {
+    // config.local.json doesn't exist or is invalid — fall through
+  }
+
+  try {
+    const defaultConfig = JSON.parse(readFileSync(join(__dirname, "config.json"), "utf8"));
+    if (defaultConfig.searxngUrl) return defaultConfig.searxngUrl;
+  } catch {
+    // config.json doesn't exist — fall through
+  }
+
+  return "https://searxng";
+}
 
 // ── Argument parsing ────────────────────────────────────────────────────────
 
@@ -33,7 +62,7 @@ const numResults = parseInt(extractOption("-n") ?? "5", 10);
 const timeRange = extractOption("--time-range");
 const categories = extractOption("--categories") ?? "general";
 const language = extractOption("--language") ?? "en";
-const searxngUrl = extractOption("--url") ?? "https://searxng";
+const searxngUrl = extractOption("--url") ?? loadConfig();
 
 const query = args.join(" ").trim();
 
