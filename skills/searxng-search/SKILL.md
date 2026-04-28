@@ -23,7 +23,7 @@ SearXNG URL is loaded with this priority:
 mkdir -p ~/.pi/agent/skills/searxng-search
 cat > ~/.pi/agent/skills/searxng-search/config.json << EOF
 {
-  "searxngUrl": "https://searxng.intra.dreadster3.com"
+  "searxngUrl": "https://searxng.example.com"
 }
 EOF
 ```
@@ -34,7 +34,7 @@ EOF
 mkdir -p .pi/skills/searxng-search
 cat > .pi/skills/searxng-search/config.json << EOF
 {
-  "searxngUrl": "https://searxng.intra.dreadster3.com"
+  "searxngUrl": "https://searxng.example.com"
 }
 EOF
 ```
@@ -42,7 +42,7 @@ EOF
 Or set the environment variable:
 
 ```bash
-export SEARXNG_URL="https://searxng.intra.dreadster3.com"
+export SEARXNG_URL="https://searxng.example.com"
 ```
 
 Install dependencies (run once):
