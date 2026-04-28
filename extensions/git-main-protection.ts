@@ -14,10 +14,14 @@ export default function (pi: ExtensionAPI) {
 
   async function getCurrentBranch(cwd: string): Promise<string | null> {
     try {
-      const result = await pi.exec("git", ["rev-parse", "--abbrev-ref", "HEAD"], {
-        cwd,
-        timeout: 5000,
-      });
+      const result = await pi.exec(
+        "git",
+        ["rev-parse", "--abbrev-ref", "HEAD"],
+        {
+          cwd,
+          timeout: 5000,
+        },
+      );
       if (result.code === 0 && result.stdout.trim()) {
         return result.stdout.trim();
       }
@@ -64,7 +68,7 @@ export default function (pi: ExtensionAPI) {
     if (isMainBranch(branch)) {
       ctx.ui.notify(
         "⚠️ You're on 'main' — git commits to main are blocked. Create a feature branch first.",
-        "warn",
+        "warning",
       );
     }
   });

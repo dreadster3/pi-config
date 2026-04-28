@@ -31,22 +31,26 @@ This file provides guidance for AI agents working on this repository.
 ## Key Conventions
 
 ### Adding a skill
+
 1. Create a directory under `skills/<name>/`
 2. Add a `SKILL.md` at the root of that directory
 3. If the skill needs npm dependencies, add a `package.json` alongside
 4. Do **not** commit `node_modules/` — it is gitignored
 
 ### package.json
+
 The root `package.json` is the pi-config manifest. It declares the four config directories and includes the `pi-package` keyword so `pi install git:...` can discover and install it.
 
 Each skill may also have its own `package.json` if it has dependencies.
 
 ### Branching
+
 - **Never commit directly to `main`.**
 - Use descriptive branch names: `feat/<name>`, `fix/<name>`, `refactor/<name>`
 - Create a PR for all changes.
 
 ### Naming
+
 - Directories: kebab-case (e.g., `searxng-search`)
 - Files: follow the convention of the containing directory
 - Skills: each skill is a directory, not a flat file
