@@ -1,12 +1,33 @@
 {
   "name": "@dreadster3/pi-config",
-  "version": "1.0.0",
+  "type": "module",
+  "version": "1.1.0",
   "description": "Pi coding agent configuration — skills, extensions, prompts, and themes",
-  "keywords": ["pi-package"],
+  "keywords": [
+    "pi-package"
+  ],
+  "scripts": {
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mariozechner/pi-coding-agent": "^0.70.5"
+  },
   "pi": {
-    "extensions": ["./extensions"],
-    "skills": ["./skills"],
-    "prompts": ["./prompts"],
-    "themes": ["./themes"]
+    "extensions": [
+      "./extensions"
+    ],
+    "skills": [
+      "./skills"
+    ],
+    "prompts": [
+      "./prompts"
+    ],
+    "themes": [
+      "./themes"
+    ]
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
   }
 }

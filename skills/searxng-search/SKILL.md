@@ -9,7 +9,41 @@ Web search using a locally-running [SearXNG](https://github.com/searxng/searxng)
 
 ## Setup
 
-SearXNG instance is pre-configured at `https://searxng`. No Docker setup needed.
+SearXNG URL is loaded with this priority:
+
+1. `SEARXNG_URL` environment variable
+2. User-level config: `~/.pi/agent/skills/searxng-search/config.json`
+3. Project-level config: `.pi/skills/searxng-search/config.json`
+
+### Configure your instance
+
+**User-level** (applies to all projects):
+
+```bash
+mkdir -p ~/.pi/agent/skills/searxng-search
+cat > ~/.pi/agent/skills/searxng-search/config.json << EOF
+{
+  "searxngUrl": "https://searxng.example.com"
+}
+EOF
+```
+
+**Project-level** (overrides user config for this repo):
+
+```bash
+mkdir -p .pi/skills/searxng-search
+cat > .pi/skills/searxng-search/config.json << EOF
+{
+  "searxngUrl": "https://searxng.example.com"
+}
+EOF
+```
+
+Or set the environment variable:
+
+```bash
+export SEARXNG_URL="https://searxng.example.com"
+```
 
 Install dependencies (run once):
 
