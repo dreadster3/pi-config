@@ -11,7 +11,8 @@ export default function (pi: ExtensionAPI) {
       );
       if (result.code === 0 && result.stdout.trim()) {
         // refs/remotes/origin/main -> main
-        return result.stdout.trim().split("/").pop();
+        const branch = result.stdout.trim().split("/").pop();
+        return branch ?? null;
       }
     } catch {
       // Fallback: try to get default branch from remote
