@@ -38,8 +38,10 @@ export default function (pi: ExtensionAPI) {
     instructions = findInstructions(ctx.cwd);
 
     if (instructions.length > 0) {
-      const labels = instructions.map((f) => path.relative(ctx.cwd, f.filePath)).join(", ");
-      ctx.ui.notify(`📋 Loaded copilot instructions: ${labels}`, "info");
+      const labels = instructions.map((f) => `  ${path.relative(ctx.cwd, f.filePath)}`);
+      ctx.ui.setWidget("copilot-instructions", ["[Copilot Instructions]", ...labels]);
+    } else {
+      ctx.ui.setWidget("copilot-instructions", []);
     }
   });
 
