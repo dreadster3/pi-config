@@ -2,7 +2,24 @@ import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { isToolCallEventType } from "@mariozechner/pi-coding-agent";
 
 export default function (pi: ExtensionAPI) {
-  // Regex patterns that indicate git operations targeting main
+  async function getDefaultBranch(cwd: string): Promise<string | null> {
+    try {
+      const result = await pi.exec(
+        "git",
+        ["symbolic-ref", "refs/remotes/origin/HEAD"],
+        { cwd, timeout: 5000 },
+      );
+      if (result.code === 0 && result.stdout.trim()) {
+        // refs/remotes/origin/main -> main
+        return result.stdout.trim().split("/").pop();
+      }
+    } catch {
+      // Fallback: try to get default branch from remote
+    }
+    return null;
+  }
+
+  // Regex patterns that indicate git operations targeting the default branch
   const MAIN_COMMIT_PATTERNS = [
     /git\s+commit/,
     /git\s+push\s+.*main/,
@@ -31,10 +48,6 @@ export default function (pi: ExtensionAPI) {
     return null;
   }
 
-  function isMainBranch(branch: string | null): boolean {
-    return branch === "main";
-  }
-
   function matchesPattern(command: string): boolean {
     return MAIN_COMMIT_PATTERNS.some((pattern) => pattern.test(command));
   }
@@ -50,24 +63,26 @@ export default function (pi: ExtensionAPI) {
     // Check if the command matches our patterns
     if (!matchesPattern(command)) return;
 
-    // Get the current branch
+    // Get the current branch and default branch
     const branch = await getCurrentBranch(ctx.cwd);
+    const defaultBranch = await getDefaultBranch(ctx.cwd);
 
-    // If not on main, let it through
-    if (!isMainBranch(branch)) return;
+    // If not on default branch, let it through
+    if (!defaultBranch || branch !== defaultBranch) return;
 
     // Block the command
     return {
       block: true,
-      reason: `Blocked git operation on 'main' branch. Create a feature branch first:\n\n  git checkout -b feat/<your-branch-name>\n\nSee AGENTS.md for project conventions.`,
+      reason: `Blocked git operation on '${defaultBranch}' branch. Create a feature branch first:\n\n  git checkout -b feat/<your-branch-name>\n\nSee AGENTS.md for project conventions.`,
     };
   });
 
   pi.on("session_start", async (event, ctx) => {
     const branch = await getCurrentBranch(ctx.cwd);
-    if (isMainBranch(branch)) {
+    const defaultBranch = await getDefaultBranch(ctx.cwd);
+    if (defaultBranch && branch === defaultBranch) {
       ctx.ui.notify(
-        "⚠️ You're on 'main' — git commits to main are blocked. Create a feature branch first.",
+        `⚠️ You're on '${defaultBranch}' — git commits are blocked. Create a feature branch first.`,
         "warning",
       );
     }
