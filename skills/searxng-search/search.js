@@ -29,9 +29,10 @@ function loadConfig() {
     }
   }
 
-  // Project-level config (skill directory config.json)
+  // Project-level config (.pi/skills/<skill-name>/config.json)
+  const projectConfigPath = resolve(__dirname, "..", "..", ".pi", "skills", "searxng-search", "config.json");
   try {
-    const projectConfig = JSON.parse(readFileSync(join(__dirname, "config.json"), "utf8"));
+    const projectConfig = JSON.parse(readFileSync(projectConfigPath, "utf8"));
     if (projectConfig.searxngUrl) return projectConfig.searxngUrl;
   } catch {
     // config.json doesn't exist — fall through

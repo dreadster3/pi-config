@@ -13,7 +13,7 @@ SearXNG URL is loaded with this priority:
 
 1. `SEARXNG_URL` environment variable
 2. User-level config: `~/.pi/agent/skills/searxng-search/config.json`
-3. Project-level config: `config.json` (in this repo)
+3. Project-level config: `.pi/skills/searxng-search/config.json`
 
 ### Configure your instance
 
@@ -30,7 +30,14 @@ EOF
 
 **Project-level** (overrides user config for this repo):
 
-Edit `config.json` in this directory.
+```bash
+mkdir -p .pi/skills/searxng-search
+cat > .pi/skills/searxng-search/config.json << EOF
+{
+  "searxngUrl": "https://searxng.intra.dreadster3.com"
+}
+EOF
+```
 
 Or set the environment variable:
 
