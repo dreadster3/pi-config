@@ -1,0 +1,27 @@
+{
+  "name": "@dreadster3/searxng-search",
+  "version": "1.0.0",
+  "description": "SearXNG web search and fetch tools for pi-coding-agent",
+  "type": "module",
+  "pi": {
+    "extensions": [
+      "./searxng-search.ts"
+    ]
+  },
+  "dependencies": {
+    "@mozilla/readability": "^0.5.0",
+    "@sinclair/typebox": "^0.34.49",
+    "jsdom": "^25.0.1",
+    "turndown": "^7.2.0",
+    "turndown-plugin-gfm": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^28.0.1",
+    "@types/turndown": "^5.0.6",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  },
+  "scripts": {
+    "test": "tsx main.ts"
+  }
+}
