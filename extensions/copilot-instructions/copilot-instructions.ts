@@ -15,7 +15,10 @@ interface InstructionsFile {
 function findInstructions(cwd: string): InstructionsFile[] {
   const candidates: InstructionsFile[] = [];
 
-  for (const relative of [".github/copilot-instructions.md", "copilot-instructions.md"]) {
+  for (const relative of [
+    ".github/copilot-instructions.md",
+    "copilot-instructions.md",
+  ]) {
     const filePath = path.join(cwd, relative);
     if (!fs.existsSync(filePath)) continue;
     try {
@@ -38,7 +41,9 @@ export default function (pi: ExtensionAPI) {
     instructions = findInstructions(ctx.cwd);
 
     if (instructions.length > 0) {
-      const labels = instructions.map((f) => path.relative(ctx.cwd, f.filePath)).join(", ");
+      const labels = instructions
+        .map((f) => path.relative(ctx.cwd, f.filePath))
+        .join(", ");
       ctx.ui.notify(`📋 Loaded copilot instructions: ${labels}`, "info");
     }
   });
