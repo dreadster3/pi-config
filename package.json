@@ -7,6 +7,7 @@
     "pi-package"
   ],
   "scripts": {
+    "postinstall": "for dir in extensions/*/; do [ -f \"$dir/package.json\" ] && npm install --prefix \"$dir\"; done",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit"
   },
