@@ -2,3 +2,21 @@ node_modules/
 *.log
 .env
 pnpm-lock.yaml
+
+# Sandbox-extension dotfile overlays (see anthropic-experimental/sandbox-runtime#139).
+# The pi-config sandbox extension bind-mounts these from $HOME into the project
+# cwd, creating 0-byte read-only stubs. They're harmless but clutter `git status`.
+.bash_profile
+.bashrc
+.gitconfig
+.gitmodules
+.idea
+.mcp.json
+.profile
+.ripgreprc
+.vscode
+.zprofile
+.zshrc
+
+# Local pi config and session state. Keep out of git — these are per-machine.
+.pi/
