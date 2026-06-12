@@ -1,6 +1,6 @@
 # pi-config
 
-Personal configuration for the [pi-coding-agent](https://github.com/mariozechner/pi) — skills, extensions, prompts, and themes.
+Personal configuration for the [pi-coding-agent](https://github.com/earendil-works/pi) — skills, extensions, prompts, and themes.
 
 ## Structure
 

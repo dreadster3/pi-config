@@ -1,7 +1,7 @@
 {
   "name": "@dreadster3/searxng-search",
-  "version": "1.0.0",
   "description": "SearXNG web search and fetch tools for pi-coding-agent",
+  "private": true,
   "type": "module",
   "pi": {
     "extensions": [

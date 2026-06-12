@@ -4,7 +4,7 @@ This file provides guidance for AI agents working on this repository.
 
 ## Project Overview
 
-`@dreadster3/pi-config` is a personal configuration package for the [pi-coding-agent](https://github.com/mariozechner/pi). It bundles skills, extensions, prompts, and themes into a single installable package.
+`@dreadster3/pi-config` is a personal configuration package for the [pi-coding-agent](https://github.com/earendil-works/pi). It bundles skills, extensions, prompts, and themes into a single installable package.
 
 ## Repository Structure
 
@@ -43,8 +43,8 @@ This file provides guidance for AI agents working on this repository.
 2. Export a default function that receives `ExtensionAPI`:
 
 ```typescript
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { isToolCallEventType } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { isToolCallEventType } from "@earendil-works/pi-coding-agent";
 
 export default function (pi: ExtensionAPI) {
   pi.on("tool_call", async (event, ctx) => {
@@ -60,7 +60,7 @@ export default function (pi: ExtensionAPI) {
 
 ### npm Scripts
 
-- `npm install` — Install dependencies (including `@mariozechner/pi-coding-agent` for type hints)
+- `npm install` — Install dependencies (including `@earendil-works/pi-coding-agent`, `@earendil-works/pi-ai`, and `@earendil-works/pi-tui` for type hints)
 - `npm run typecheck` — Run TypeScript type checking (runs automatically on commit)
 - `npm run format` — Run Prettier to format all files
 

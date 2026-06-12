@@ -1,7 +1,7 @@
 {
   "name": "@dreadster3/pi-config",
   "type": "module",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Pi coding agent configuration — skills, extensions, prompts, and themes",
   "keywords": [
     "pi-package"
@@ -12,7 +12,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@mariozechner/pi-coding-agent": "^0.70.5"
+    "@earendil-works/pi-coding-agent": "^0.79.1",
+    "@earendil-works/pi-ai": "^0.79.1",
+    "@earendil-works/pi-tui": "^0.79.1"
   },
   "pi": {
     "extensions": [
