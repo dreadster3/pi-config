@@ -1,0 +1,79 @@
+{
+  "defaultModel": "minimax-m3:cloud",
+  "defaultProvider": "ollama",
+  "defaultThinkingLevel": "medium",
+  "hideThinkingBlock": false,
+  "lastChangelogVersion": "0.79.1",
+  "packages": [
+    "npm:pi-subagents",
+    "git:github.com/nicobailon/visual-explainer",
+    "npm:context-mode",
+    "npm:@ollama/pi-web-search",
+    "npm:@plannotator/pi-extension",
+    "git:github.com/dreadster3/pi-config",
+    "npm:@juicesharp/rpiv-ask-user-question@v1.19.1",
+    "npm:@juicesharp/rpiv-todo@v1.19.1"
+  ],
+  "subagents": {
+    "agentOverrides": {
+      "context-builder": {
+        "fallbackModels": ["opencode-go/minimax-m3", "ollama/qwen3.5:cloud"],
+        "model": "ollama/minimax-m3:cloud",
+        "thinking": "medium"
+      },
+      "delegate": {
+        "fallbackModels": [
+          "opencode-go/deepseek-v4-flash",
+          "opencode-go/mimo-v2.5"
+        ],
+        "model": "ollama/deepseek-v4-flash:cloud"
+      },
+      "oracle": {
+        "fallbackModels": [
+          "ollama/deepseek-v4-pro:cloud",
+          "opencode-go/deepseek-v4-pro"
+        ],
+        "model": "opencode-go/qwen3.7-max",
+        "thinking": "high"
+      },
+      "planner": {
+        "fallbackModels": [
+          "opencode-go/deepseek-v4-pro",
+          "opencode-go/qwen3.7-max"
+        ],
+        "model": "ollama/deepseek-v4-pro:cloud",
+        "thinking": "high"
+      },
+      "researcher": {
+        "fallbackModels": [
+          "opencode-go/kimi-k2.6",
+          "ollama/deepseek-v4-flash:cloud"
+        ],
+        "model": "ollama/kimi-k2.6:cloud",
+        "thinking": "medium"
+      },
+      "reviewer": {
+        "fallbackModels": [
+          "ollama/deepseek-v4-pro:cloud",
+          "opencode-go/deepseek-v4-pro"
+        ],
+        "model": "opencode-go/qwen3.7-max",
+        "thinking": "high"
+      },
+      "scout": {
+        "fallbackModels": [
+          "opencode-go/deepseek-v4-flash",
+          "opencode-go/mimo-v2.5"
+        ],
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "thinking": "low"
+      },
+      "worker": {
+        "fallbackModels": ["opencode-go/minimax-m3", "ollama/glm-5.1:cloud"],
+        "model": "ollama/minimax-m3:cloud",
+        "thinking": "high"
+      }
+    }
+  },
+  "theme": "catppuccin-mocha"
+}
