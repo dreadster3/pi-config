@@ -14,12 +14,12 @@ Use only one writer against the active worktree at a time. Do not set `clarify: 
 
 All four subagents must run with `context: "fresh"`. Fresh sessions start with empty branches, so the parent cannot rely on shared conversation state — every handoff is through a file artifact. The `todo` tool stays in the parent session only; subagents do not get it, and the parent's todo overlay is the canonical plan view. The planner writes the todo list into `plan.md` as a structured section, and the parent transcribes it into its own `todo` calls so the user sees the list above the editor. The worker reads the plan and walks the items one at a time.
 
-All shared artifacts live under `./review-loop/` in the worktree, written by the agent that owns them and read by downstream agents:
+All shared artifacts live under `.pi/artifacts/review-loop/{iteration}/` in the worktree, written by the agent that owns them and read by downstream agents. `{iteration}` is the round number (1, 2, 3, …) computed by the parent **before** launching the chain call for that round. Round 1 lands under `.pi/artifacts/review-loop/1/`, round 2 under `.pi/artifacts/review-loop/2/`, and so on. This keeps each round self-contained so reviewers and the worker never accidentally read a stale artifact from a prior round. If a downstream step needs cross-iteration context, the parent passes the prior artifact path explicitly in that step's task prompt — subagents do not glob for sibling iteration directories on their own.
 
-- `review-loop/context.md` — scout recon (read by reviewers, planner, worker)
-- `review-loop/review-<angle>.md` — one per reviewer angle (read by planner, parent)
-- `review-loop/plan.md` — planner's ordered todo list, including the canonical `## Todo list` section (read by parent to seed todos, then by worker)
-- `review-loop/worker-summary.md` — final worker report (read by parent)
+- `.pi/artifacts/review-loop/{N}/context.md` — scout recon (read by reviewers, planner, worker for round N)
+- `.pi/artifacts/review-loop/{N}/review-<angle>.md` — one per reviewer angle (read by planner, parent)
+- `.pi/artifacts/review-loop/{N}/plan.md` — planner's ordered todo list, including the canonical `## Todo list` section (read by parent to seed todos, then by worker)
+- `.pi/artifacts/review-loop/{N}/worker-summary.md` — final worker report (read by parent)
 
 Pass `output: "<path>"` and `outputMode: "file-only"` on every subagent so the parent only sees compact references. Do not pass duplicate output paths to parallel agents. When a task is review-only, say "do not modify project/source files" rather than "do not write files" so the child knows the configured output artifact is allowed.
 
@@ -28,13 +28,14 @@ Pass `output: "<path>"` and `outputMode: "file-only"` on every subagent so the p
 The initial round must be launched as a single `subagent` chain call. A correct shape (adapt the labels, output paths, and concurrency to the actual review angles chosen):
 
 ```typescript
+// Round N — set {N} to the current round number (1, 2, 3, ...).
 subagent({
   chain: [
     {
       agent: "scout",
       context: "fresh",
       task: "Explore the working tree in <CWD>. ...",
-      output: "review-loop/context.md",
+      output: ".pi/artifacts/review-loop/{N}/context.md",
       outputMode: "file-only"
     },
     {
@@ -42,22 +43,22 @@ subagent({
         {
           agent: "reviewer",
           context: "fresh",
-          task: "Read review-loop/context.md and the working tree. Report correctness issues. Do not modify project/source files; returning findings via the configured output artifact is allowed.",
-          output: "review-loop/review-correctness.md",
+          task: "Read .pi/artifacts/review-loop/{N}/context.md and the working tree. Report correctness issues. Do not modify project/source files; returning findings via the configured output artifact is allowed.",
+          output: ".pi/artifacts/review-loop/{N}/review-correctness.md",
           outputMode: "file-only"
         },
         {
           agent: "reviewer",
           context: "fresh",
-          task: "Read review-loop/context.md and the working tree. Report test/validation gaps. Do not modify project/source files; returning findings via the configured output artifact is allowed.",
-          output: "review-loop/review-tests.md",
+          task: "Read .pi/artifacts/review-loop/{N}/context.md and the working tree. Report test/validation gaps. Do not modify project/source files; returning findings via the configured output artifact is allowed.",
+          output: ".pi/artifacts/review-loop/{N}/review-tests.md",
           outputMode: "file-only"
         },
         {
           agent: "reviewer",
           context: "fresh",
-          task: "Read review-loop/context.md and the working tree. Report simplicity/maintainability issues. Do not modify project/source files; returning findings via the configured output artifact is allowed.",
-          output: "review-loop/review-simplicity.md",
+          task: "Read .pi/artifacts/review-loop/{N}/context.md and the working tree. Report simplicity/maintainability issues. Do not modify project/source files; returning findings via the configured output artifact is allowed.",
+          output: ".pi/artifacts/review-loop/{N}/review-simplicity.md",
           outputMode: "file-only"
         }
       ],
@@ -66,15 +67,15 @@ subagent({
     {
       agent: "planner",
       context: "fresh",
-      task: "Read review-loop/context.md and the review-loop/review-*.md files. ...",
-      output: "review-loop/plan.md",
+      task: "Read .pi/artifacts/review-loop/{N}/context.md and the .pi/artifacts/review-loop/{N}/review-*.md files. ...",
+      output: ".pi/artifacts/review-loop/{N}/plan.md",
       outputMode: "file-only"
     },
     {
       agent: "worker",
       context: "fresh",
-      task: "Read review-loop/context.md and review-loop/plan.md. ...",
-      output: "review-loop/worker-summary.md",
+      task: "Read .pi/artifacts/review-loop/{N}/context.md and .pi/artifacts/review-loop/{N}/plan.md. ...",
+      output: ".pi/artifacts/review-loop/{N}/worker-summary.md",
       outputMode: "file-only"
     }
   ],
@@ -88,13 +89,13 @@ If the round cap is more than 1, after the chain completes the parent synthesize
 
 ## Phase 1 — Scout
 
-Launch the scout as the first chain step. Task must include `<CWD>` as the explicit scope, the original work request (which is "review the working tree in the current working directory" plus any supplemental context from `$ARGUMENTS`), and an explicit instruction to write `review-loop/context.md`. The scout returns compressed codebase context: relevant entry points, key types/functions, data flow, files likely to need changes, constraints, and open questions. Cite exact file paths and line ranges.
+Launch the scout as the first chain step. Task must include `<CWD>` as the explicit scope, the original work request (which is "review the working tree in the current working directory" plus any supplemental context from `$ARGUMENTS`), the iteration's artifact directory `.pi/artifacts/review-loop/{N}/` (with `{N}` replaced by the current round number, computed by the parent), and an explicit instruction to write `.pi/artifacts/review-loop/{N}/context.md`. The scout returns compressed codebase context: relevant entry points, key types/functions, data flow, files likely to need changes, constraints, and open questions. Cite exact file paths and line ranges.
 
 If the scout surfaces missing requirements or blocking questions, pause and ask the user with `ask_user_question` before continuing. Do not let later phases guess at scope.
 
 ## Phase 2 — Reviewers
 
-Launch the reviewers as a `parallel` chain group after the scout step. Each reviewer reads `review-loop/context.md` and the working tree, then writes one file: `review-loop/review-correctness.md`, `review-loop/review-tests.md`, `review-loop/review-simplicity.md` (or other angle names that fit the work — security, performance, API contracts). Reviewers must not edit project source files, must not run their own subagents, and must not relitigate the scout's findings — they inspect the existing code through the scout's recon and report concrete, evidence-backed issues with file/line references. Three strong angles beat many vague ones.
+Launch the reviewers as a `parallel` chain group after the scout step. Each reviewer reads `.pi/artifacts/review-loop/{N}/context.md` and the working tree, then writes one file: `.pi/artifacts/review-loop/{N}/review-correctness.md`, `.pi/artifacts/review-loop/{N}/review-tests.md`, `.pi/artifacts/review-loop/{N}/review-simplicity.md` (or other angle names that fit the work — security, performance, API contracts). Reviewers must not edit project source files, must not run their own subagents, and must not relitigate the scout's findings — they inspect the existing code through the scout's recon and report concrete, evidence-backed issues with file/line references. Three strong angles beat many vague ones.
 
 The chain waits for all parallel branches to finish before moving to the next step, so the planner is only ever launched after every reviewer file exists.
 
@@ -103,15 +104,15 @@ The chain waits for all parallel branches to finish before moving to the next st
 Launch the planner as the next chain step after the parallel reviewer group. The planner task must include:
 
 - the original work request
-- the path `review-loop/context.md`
-- the paths of every reviewer file in `review-loop/review-*.md`
-- the output path `review-loop/plan.md`
+- the path `.pi/artifacts/review-loop/{N}/context.md`
+- the paths of every reviewer file in `.pi/artifacts/review-loop/{N}/review-*.md`
+- the output path `.pi/artifacts/review-loop/{N}/plan.md`
 - the explicit instruction to render a `## Todo list` section at the top of `plan.md`: a numbered, ordered, dependency-aware list of actionable items, each with a `Subject`, `Description`, `File(s)` it touches, and `Acceptance` (how to verify). The planner does not call the `todo` tool — it just writes the list into the file.
 - the explicit instruction to call out unapproved product, scope, or architecture decisions in a `## Decisions needed` section so the parent can ask the user before the worker starts.
 
 The planner turns the reviewer findings into a small, ordered, actionable set of tasks. Each task names the file, the change, the validation, and the rough order it should be tackled.
 
-After the planner returns, **the parent must call `todo` itself** to mirror the planner's todo list on its own branch. Walk the `## Todo list` section top-to-bottom and call `todo create` for each item, using the planner's `Subject` for `subject`, the `Description` for `description`, the present-continuous form of the subject for `activeForm`, and the planner's stated dependencies for `blockedBy`. This is the canonical list — the parent's overlay reflects it, and the worker reads the same file to know what to do.
+After the planner returns, **the parent must call `todo` itself** to mirror the planner's todo list on its own branch. Before the first round, the parent should `todo clear` so the overlay starts empty; for round N > 1, the parent should also `todo clear` so the overlay reflects the current round's plan, not a stale one from a prior round. Walk the `## Todo list` section top-to-bottom and call `todo create` for each item, using the planner's `Subject` for `subject`, the `Description` for `description`, the present-continuous form of the subject for `activeForm`, and the planner's stated dependencies for `blockedBy`. This is the canonical list — the parent's overlay reflects it, and the worker reads the same file to know what to do.
 
 If the planner reports unapproved decisions in `## Decisions needed`, pause and ask the user before launching the worker. If a reviewer finding contradicts another, the parent's synthesis decides what goes onto the todo list — the planner does not arbitrate reviewer disagreement on its own.
 
@@ -120,15 +121,15 @@ If the planner reports unapproved decisions in `## Decisions needed`, pause and 
 Launch the worker as the final chain step. The worker task must include:
 
 - the original work request
-- the path `review-loop/context.md`
-- the path `review-loop/plan.md` (which already contains the `## Todo list` section)
-- the output path `review-loop/worker-summary.md`
+- the path `.pi/artifacts/review-loop/{N}/context.md`
+- the path `.pi/artifacts/review-loop/{N}/plan.md` (which already contains the `## Todo list` section)
+- the output path `.pi/artifacts/review-loop/{N}/worker-summary.md`
 
 The worker does not receive the `todo` tool — it works through the `## Todo list` section in `plan.md` directly. The worker is the only agent in this loop that may edit project source files. Reviewers, the planner, and the scout are all read-only against source.
 
-The worker walks the list one item at a time: read the next item, do the work, run focused validation, then move to the next. The worker should track its own progress locally — either by editing `review-loop/plan.md` to check off items (e.g., `[x]` / `[ ]`) or by maintaining a `review-loop/progress.md` scratch file. Do not instruct the worker to call the `todo` tool; the parent's todo overlay is the only canonical todo view, and the parent's list is already what the user sees.
+The worker walks the list one item at a time: read the next item, do the work, run focused validation, then move to the next. The worker should track its own progress locally — either by editing `.pi/artifacts/review-loop/{N}/plan.md` to check off items (e.g., `[x]` / `[ ]`) or by maintaining a `.pi/artifacts/review-loop/{N}/progress.md` scratch file. Do not instruct the worker to call the `todo` tool; the parent's todo overlay is the only canonical todo view, and the parent's list is already what the user sees.
 
-If a todo is blocked by an unresolvable error, the worker keeps that item open, records the blocker in `review-loop/worker-summary.md`, and creates a follow-up todo in the plan file rather than silently completing it. At the end, write `review-loop/worker-summary.md` with: implemented changes per todo, changed files, validation evidence per todo, open risks, and the final state of every todo from `plan.md`.
+If a todo is blocked by an unresolvable error, the worker keeps that item open, records the blocker in `.pi/artifacts/review-loop/{N}/worker-summary.md`, and creates a follow-up todo in the plan file rather than silently completing it. At the end, write `.pi/artifacts/review-loop/{N}/worker-summary.md` with: implemented changes per todo, changed files, validation evidence per todo, open risks, and the final state of every todo from `plan.md`.
 
 ## Stop conditions
 
