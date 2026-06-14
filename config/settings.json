@@ -5,7 +5,10 @@
   "hideThinkingBlock": false,
   "lastChangelogVersion": "0.79.3",
   "packages": [
-    "npm:pi-subagents",
+    {
+      "source": "npm:pi-subagents",
+      "prompts": ["-prompts/review-loop.md"]
+    },
     "git:github.com/nicobailon/visual-explainer@8f1d0e38ab0f265632a31d2fd032f7b730c98c15",
     "npm:context-mode",
     "npm:@ollama/pi-web-search",
@@ -96,4 +99,3 @@
   },
   "theme": "catppuccin-mocha"
 }
-

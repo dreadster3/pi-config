@@ -14,6 +14,7 @@ Personal configuration for the [pi-coding-agent](https://github.com/earendil-wor
 │       ├── package.json
 │       └── search.js
 ├── prompts/              # Prompt templates (.md)
+│   └── review-loop.md    # Scout → reviewers → planner → worker loop with todo-tracked plan
 └── themes/               # Theme definitions (.json)
 ```
 
