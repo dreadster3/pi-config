@@ -2,11 +2,15 @@
 description: Scout → review → todo-tracked plan → worker execution loop
 ---
 
-Run a parent-orchestrated implementation loop for the requested work. The loop has four ordered phases — **scout → reviewers → planner → worker** — and every subagent runs in fresh context so no agent inherits the parent conversation or any other agent's history. Keep the parent session as the loop controller and final decision-maker. Child subagents must receive concrete role-specific tasks; they must not run subagents or manage the loop themselves.
+Run a parent-orchestrated implementation loop against the **work in the current working directory** (the active worktree). The loop has four ordered phases — **scout → reviewers → planner → worker** — and every subagent runs in fresh context so no agent inherits the parent conversation or any other agent's history. Keep the parent session as the loop controller and final decision-maker. Child subagents must receive concrete role-specific tasks; they must not run subagents or manage the loop themselves.
+
+**Default scope.** The target is the working tree of the current working directory: uncommitted changes, staged changes, recent commits, and the surrounding code those changes touch. Treat the CWD itself as the primary scope. If the user supplied additional context in `$ARGUMENTS` (a URL, issue, plan, file path, PR number, or extra review focus), treat that as supplemental context layered on top of the CWD — the CWD is always in scope. If the working tree has no diff and no recent commits, fall back to a full-codebase review of the CWD.
+
+**How to drive the loop.** All four phases must run as a **single `subagent` chain call** through the pi-subagents extension, not as four separate manual `subagent(...)` invocations with the main model deciding between them. The parent should issue one `subagent({ chain: [...], async: true, context: "fresh" })` call that wires scout → parallel reviewers → planner → worker as nested chain steps, with each step using `output: "..."` and `outputMode: "file-only"` for its artifact. The parent stays out of the chain's reasoning; it only acts between rounds (synthesizing decisions, asking the user, or stopping the loop). Do not call the `subagent` tool four times in a row and stitch results with the main model. If a chain call would be more than ~20 steps or contain dynamic fanout, express it as a saved `.chain.json` or `.chain.md` file in the worktree and run it through the chain tool — do not let the parent reinvent the chain shape inline.
 
 Default to a single review round. If `$ARGUMENTS` includes `--rounds <n>` (or `/review-loop n`), use that cap instead; otherwise the loop stops after one clean pass. Count a round as one full scout → reviewers → planner → worker cycle. Stop early when reviewers find no blockers or fixes worth doing now.
 
-Use the `subagent` tool. Use only one writer against the active worktree at a time. For an initial chain, pass `async: true` so the main chat is unblocked; do not set `clarify: true` unless the slash command invocation explicitly requested the foreground clarify UI.
+Use only one writer against the active worktree at a time. Do not set `clarify: true` unless the slash command invocation explicitly requested the foreground clarify UI.
 
 All four subagents must run with `context: "fresh"`. Fresh sessions start with empty branches, so the parent cannot rely on shared conversation state — every handoff is through a file artifact. The `todo` tool stays in the parent session only; subagents do not get it, and the parent's todo overlay is the canonical plan view. The planner writes the todo list into `plan.md` as a structured section, and the parent transcribes it into its own `todo` calls so the user sees the list above the editor. The worker reads the plan and walks the items one at a time.
 
@@ -19,21 +23,85 @@ All shared artifacts live under `./review-loop/` in the worktree, written by the
 
 Pass `output: "<path>"` and `outputMode: "file-only"` on every subagent so the parent only sees compact references. Do not pass duplicate output paths to parallel agents. When a task is review-only, say "do not modify project/source files" rather than "do not write files" so the child knows the configured output artifact is allowed.
 
+## Chain shape
+
+The initial round must be launched as a single `subagent` chain call. A correct shape (adapt the labels, output paths, and concurrency to the actual review angles chosen):
+
+```typescript
+subagent({
+  chain: [
+    {
+      agent: "scout",
+      context: "fresh",
+      task: "Explore the working tree in <CWD>. ...",
+      output: "review-loop/context.md",
+      outputMode: "file-only"
+    },
+    {
+      parallel: [
+        {
+          agent: "reviewer",
+          context: "fresh",
+          task: "Read review-loop/context.md and the working tree. Report correctness issues. Do not modify project/source files; returning findings via the configured output artifact is allowed.",
+          output: "review-loop/review-correctness.md",
+          outputMode: "file-only"
+        },
+        {
+          agent: "reviewer",
+          context: "fresh",
+          task: "Read review-loop/context.md and the working tree. Report test/validation gaps. Do not modify project/source files; returning findings via the configured output artifact is allowed.",
+          output: "review-loop/review-tests.md",
+          outputMode: "file-only"
+        },
+        {
+          agent: "reviewer",
+          context: "fresh",
+          task: "Read review-loop/context.md and the working tree. Report simplicity/maintainability issues. Do not modify project/source files; returning findings via the configured output artifact is allowed.",
+          output: "review-loop/review-simplicity.md",
+          outputMode: "file-only"
+        }
+      ],
+      concurrency: 3
+    },
+    {
+      agent: "planner",
+      context: "fresh",
+      task: "Read review-loop/context.md and the review-loop/review-*.md files. ...",
+      output: "review-loop/plan.md",
+      outputMode: "file-only"
+    },
+    {
+      agent: "worker",
+      context: "fresh",
+      task: "Read review-loop/context.md and review-loop/plan.md. ...",
+      output: "review-loop/worker-summary.md",
+      outputMode: "file-only"
+    }
+  ],
+  async: true
+})
+```
+
+Wrap this in `async: true` so the main chat is unblocked. Do not launch the four phases as four separate top-level `subagent(...)` calls and stitch the results with the main model — that defeats the chain tool. Use distinct `output` paths per step and per parallel branch (no duplicates). For review-only steps, the task must explicitly say "do not modify project/source files; returning findings via the configured output artifact is allowed" so the reviewer knows the output file is fine but source edits are not.
+
+If the round cap is more than 1, after the chain completes the parent synthesizes, decides whether to launch another round, and only then issues a follow-up chain call.
+
 ## Phase 1 — Scout
 
-Launch one async fresh-context `scout` agent. Task must include the original work request, the primary scope (URL, file, issue, plan, or diff), and an explicit instruction to write `review-loop/context.md`. The scout returns compressed codebase context: relevant entry points, key types/functions, data flow, files likely to need changes, constraints, and open questions. Cite exact file paths and line ranges.
+Launch the scout as the first chain step. Task must include `<CWD>` as the explicit scope, the original work request (which is "review the working tree in the current working directory" plus any supplemental context from `$ARGUMENTS`), and an explicit instruction to write `review-loop/context.md`. The scout returns compressed codebase context: relevant entry points, key types/functions, data flow, files likely to need changes, constraints, and open questions. Cite exact file paths and line ranges.
 
 If the scout surfaces missing requirements or blocking questions, pause and ask the user with `ask_user_question` before continuing. Do not let later phases guess at scope.
 
 ## Phase 2 — Reviewers
 
-Launch 2–3 async fresh-context `reviewer` agents in parallel. Each reviewer reads `review-loop/context.md` and the original work request, then writes one file: `review-loop/review-correctness.md`, `review-loop/review-tests.md`, `review-loop/review-simplicity.md` (or other angle names that fit the work — security, performance, API contracts). Reviewers must not edit project source files, must not run their own subagents, and must not relitigate the scout's findings — they inspect the existing code through the scout's recon and report concrete, evidence-backed issues with file/line references. Three strong angles beat many vague ones.
+Launch the reviewers as a `parallel` chain group after the scout step. Each reviewer reads `review-loop/context.md` and the working tree, then writes one file: `review-loop/review-correctness.md`, `review-loop/review-tests.md`, `review-loop/review-simplicity.md` (or other angle names that fit the work — security, performance, API contracts). Reviewers must not edit project source files, must not run their own subagents, and must not relitigate the scout's findings — they inspect the existing code through the scout's recon and report concrete, evidence-backed issues with file/line references. Three strong angles beat many vague ones.
 
-Wait for all reviewers to complete before moving to the planner. The parent's job between phases is to keep moving on local inspection, but do not start the planner until every reviewer file exists.
+The chain waits for all parallel branches to finish before moving to the next step, so the planner is only ever launched after every reviewer file exists.
 
 ## Phase 3 — Planner
 
-Launch one async fresh-context `planner` agent. The planner task must include:
+Launch the planner as the next chain step after the parallel reviewer group. The planner task must include:
+
 - the original work request
 - the path `review-loop/context.md`
 - the paths of every reviewer file in `review-loop/review-*.md`
@@ -49,7 +117,8 @@ If the planner reports unapproved decisions in `## Decisions needed`, pause and 
 
 ## Phase 4 — Worker
 
-Launch one async fresh-context `worker` agent. The worker task must include:
+Launch the worker as the final chain step. The worker task must include:
+
 - the original work request
 - the path `review-loop/context.md`
 - the path `review-loop/plan.md` (which already contains the `## Todo list` section)
@@ -72,4 +141,4 @@ Stop the loop and summarize when any of these is true:
 
 On completion, inspect the final diff yourself, run or confirm focused validation where appropriate, mark completed todos as `completed` via `todo update` to keep the overlay in sync with reality, and summarize: rounds run, scout findings, reviewer angles and accepted fixes, todo list with completion state, validation evidence, remaining deferred items, and why the loop stopped.
 
-Additional target, implementation request, max-round cap, or review focus from the slash command invocation: $@
+Additional target, implementation request, max-round cap, or review focus from the slash command invocation: $@. When `$ARGUMENTS` is empty, the only target is the working tree in the current working directory.
