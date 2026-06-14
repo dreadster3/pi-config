@@ -6,13 +6,31 @@
   "lastChangelogVersion": "0.79.1",
   "packages": [
     "npm:pi-subagents",
-    "git:github.com/nicobailon/visual-explainer",
+    "git:github.com/nicobailon/visual-explainer@8f1d0e38ab0f265632a31d2fd032f7b730c98c15",
     "npm:context-mode",
     "npm:@ollama/pi-web-search",
     "npm:@plannotator/pi-extension",
     "git:github.com/dreadster3/pi-config",
     "npm:@juicesharp/rpiv-ask-user-question@v1.19.1",
-    "npm:@juicesharp/rpiv-todo@v1.19.1"
+    "npm:@juicesharp/rpiv-todo@v1.19.1",
+    {
+      "source": "git:github.com/anthropics/skills",
+      "skills": [
+        "skills/algorithmic-art",
+        "skills/skill-creator",
+        "skills/pdf",
+        "skills/webapp-testing",
+        "skills/theme-factory"
+      ]
+    },
+    {
+      "source": "git:github.com/vercel-labs/opensrc@v0.7.2",
+      "skills": ["skills/opensrc"]
+    },
+    {
+      "source": "git:github.com/mattpocock/skills@694fa30311e02c2639942308513555e61ee84a6f",
+      "skills": ["skills/engineering/tdd"]
+    }
   ],
   "subagents": {
     "agentOverrides": {
