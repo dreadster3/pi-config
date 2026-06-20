@@ -34,7 +34,8 @@
       "source": "git:github.com/mattpocock/skills@694fa30311e02c2639942308513555e61ee84a6f",
       "skills": ["skills/engineering/tdd"]
     },
-    "npm:pi-mcp-adapter"
+    "npm:pi-mcp-adapter",
+    "git:github.com/dreadster3/kilo-pi-provider@feat/kilo-apikey-env-var-syntax"
   ],
   "subagents": {
     "agentOverrides": {
