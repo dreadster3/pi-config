@@ -24,6 +24,16 @@ Personal configuration for the [pi-coding-agent](https://github.com/earendil-wor
 pi install git:github.com/dreadster3/pi-config
 ```
 
+## Extensions
+
+| Extension              | Description                                                                                                                                   |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `gitignore-protection` | Blocks pi from reading/writing gitignored files and folders, except inside `.pi/` directories. Uses `git check-ignore` for accurate matching. |
+| `git-main-protection`  | Prevents git commits and pushes on the default branch.                                                                                        |
+| `confirm-destructive`  | Prompts for confirmation before destructive session actions (clear, switch, fork).                                                            |
+| `copilot-instructions` | Loads `.github/copilot-instructions.md` into the system prompt.                                                                               |
+| `tools`                | Provides a `/tools` command to enable/disable tools interactively.                                                                            |
+
 ## Adding a skill
 
 Drop a skill into `skills/` with a `SKILL.md` at its root. If it needs npm deps, add a `package.json` alongside.
