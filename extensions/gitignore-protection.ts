@@ -125,49 +125,47 @@ export default function (pi: ExtensionAPI) {
   /**
    * Extract potential file paths from a bash command string.
    *
-   * The command is tokenized by:
-   *  1. Extracting quoted strings (preserving paths with spaces)
-   *  2. Extracting bare words (non-whitespace tokens)
-   *  3. Stripping leading/trailing shell operators from bare words
-   *  4. Filtering out flags, shell variables, and pure numbers
+   * Uses a two-pass approach to catch file references in all positions:
+   *
+   *  Pass 1 — Quoted strings as whole tokens:
+   *    Extracts single/double-quoted strings and checks the full content
+   *    as a path. This catches paths with spaces (e.g. `cat "my file.txt"`).
+   *
+   *  Pass 2 — Strip quotes and operators, split by whitespace:
+   *    Removes all quotes and shell metacharacters, then splits on
+   *    whitespace. This catches file references embedded inside quoted
+   *    script content (e.g. `python3 -c "print(open('.env').read())"`)
+   *    where `.env` is inside a string literal within the quoted argument.
    *
    * Only tokens that resolve to an existing file or directory on disk
    * are returned — this eliminates most false positives (command names,
    * script content, patterns, etc.) while catching real file references.
    */
   function extractExistingPaths(command: string, cwd: string): string[] {
-    // Match single-quoted strings, double-quoted strings, or bare words.
-    // Quoted strings capture their content (without quotes).
-    // Bare words capture non-whitespace runs (may include trailing operators).
-    const tokenRegex = /'([^']*)'|"([^"]*)"|(\S+)/g;
-
     const candidates: string[] = [];
-    let match: RegExpExecArray | null;
-    while ((match = tokenRegex.exec(command)) !== null) {
-      const quoted = match[1] ?? match[2];
-      if (quoted !== undefined) {
-        // Quoted string — treat the entire content as a potential path
-        candidates.push(quoted);
-        continue;
-      }
 
-      // Bare word — strip leading/trailing shell operators and separators
-      const bare = (match[3] ?? "")
-        .replace(/^[|&;()<>"'`=]+/, "")
-        .replace(/[|&;()<>"'`=]+$/, "");
+    // Pass 1: Extract quoted strings as whole tokens (for paths with spaces)
+    const quoteRegex = /'([^']*)'|"([^"]*)"/g;
+    let qMatch: RegExpExecArray | null;
+    while ((qMatch = quoteRegex.exec(command)) !== null) {
+      const quoted = qMatch[1] ?? qMatch[2] ?? "";
+      if (quoted) candidates.push(quoted);
+    }
 
-      if (!bare) continue;
-
-      // Also handle `=` separators (e.g. VAR=file.json or --opt=file.json)
-      const eqParts = bare.split("=");
-      for (const part of eqParts) {
-        if (!part) continue;
-        candidates.push(part);
-      }
+    // Pass 2: Strip all quotes and shell operators, then split by whitespace.
+    // This exposes file references hidden inside quoted script arguments.
+    const stripped = command
+      .replace(/["'`]/g, " ")
+      .replace(/&&|\|\||>>|<<|\$\(|[\|&;()<>=]/g, " ")
+      .split(/\s+/)
+      .filter((t) => t.length > 0);
+    for (const token of stripped) {
+      candidates.push(token);
     }
 
     // Filter to tokens that resolve to existing files/directories on disk
     const existingPaths: string[] = [];
+    const seen = new Set<string>();
     for (const candidate of candidates) {
       // Skip flags
       if (candidate.startsWith("-")) continue;
@@ -177,6 +175,9 @@ export default function (pi: ExtensionAPI) {
       if (/^\d+$/.test(candidate)) continue;
       // Skip very short tokens (likely not paths)
       if (candidate.length < 2) continue;
+      // Skip duplicates
+      if (seen.has(candidate)) continue;
+      seen.add(candidate);
 
       const absolutePath = path.resolve(cwd, candidate);
       try {
