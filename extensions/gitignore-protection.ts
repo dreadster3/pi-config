@@ -115,7 +115,7 @@ export default function (pi: ExtensionAPI) {
         path.relative(cwd, path.resolve(cwd, rawPath)) || rawPath;
       return {
         block: true,
-        reason: `Blocked by gitignore protection: '${displayPath}' is gitignored and not inside a .pi/ folder. The ${toolName} tool cannot access gitignored files.`,
+        reason: `Access denied: '${displayPath}' is gitignored and not inside a .pi/ folder. You must not read, write, list, or otherwise access this file or directory — it is intentionally excluded from version control and protected by the gitignore-protection extension. Do not attempt to bypass this restriction via bash commands, symlinks, or any other method.`,
       };
     }
 
@@ -215,7 +215,7 @@ export default function (pi: ExtensionAPI) {
           path.relative(cwd, path.resolve(cwd, candidate)) || candidate;
         return {
           block: true,
-          reason: `Blocked by gitignore protection: bash command references '${displayPath}', which is gitignored and not inside a .pi/ folder.`,
+          reason: `Access denied: this bash command references '${displayPath}', which is gitignored and not inside a .pi/ folder. You must not read, write, or access gitignored files through bash commands, pipes, subshells, symlinks, or any other method. Do not attempt to bypass this restriction.`,
         };
       }
     }
