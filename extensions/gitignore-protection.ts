@@ -13,17 +13,22 @@
  *            gitignored `path` argument is blocked)
  *  - edit   (reads file to diff — blocked since it exposes file contents)
  *  - write  (prevents creating/modifying files in gitignored locations)
+ *  - bash   (scans command for file path references and blocks gitignored ones)
  *
  * Uses `git check-ignore` for accurate matching against all gitignore rules
  * (nested `.gitignore` files, negation patterns, etc.).
  *
- * Limitation: `bash` commands are not intercepted because reliably detecting
- * file-reading commands (cat, head, tail, awk, etc.) from arbitrary shell
- * pipelines is impractical.
+ * Bash interception: the command string is tokenized by splitting on shell
+ * operators and whitespace. Each token that resolves to an existing file or
+ * directory on disk is checked against `git check-ignore`. This catches common
+ * file-reading patterns like `cat .env`, `head file | grep x`, or
+ * `python3 -c "...open('file')..."`. Quoted strings are preserved so paths
+ * with spaces are handled correctly.
  */
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { isToolCallEventType } from "@earendil-works/pi-coding-agent";
+import * as fs from "node:fs";
 import * as path from "node:path";
 
 export default function (pi: ExtensionAPI) {
@@ -110,8 +115,109 @@ export default function (pi: ExtensionAPI) {
         path.relative(cwd, path.resolve(cwd, rawPath)) || rawPath;
       return {
         block: true,
-        reason: `Blocked by gitignore protection: '${displayPath}' is gitignored and not inside a .pi/ folder. The ${toolName} tool cannot access gitignored files.`,
+        reason: `Access denied: '${displayPath}' is gitignored and not inside a .pi/ folder. You must not read, write, list, or otherwise access this file or directory — it is intentionally excluded from version control and protected by the gitignore-protection extension. Do not attempt to bypass this restriction via bash commands, symlinks, or any other method.`,
       };
+    }
+
+    return { block: false };
+  }
+
+  /**
+   * Extract potential file paths from a bash command string.
+   *
+   * Uses a two-pass approach to catch file references in all positions:
+   *
+   *  Pass 1 — Quoted strings as whole tokens:
+   *    Extracts single/double-quoted strings and checks the full content
+   *    as a path. This catches paths with spaces (e.g. `cat "my file.txt"`).
+   *
+   *  Pass 2 — Strip quotes and operators, split by whitespace:
+   *    Removes all quotes and shell metacharacters, then splits on
+   *    whitespace. This catches file references embedded inside quoted
+   *    script content (e.g. `python3 -c "print(open('.env').read())"`)
+   *    where `.env` is inside a string literal within the quoted argument.
+   *
+   * Only tokens that resolve to an existing file or directory on disk
+   * are returned — this eliminates most false positives (command names,
+   * script content, patterns, etc.) while catching real file references.
+   */
+  function extractExistingPaths(command: string, cwd: string): string[] {
+    const candidates: string[] = [];
+
+    // Pass 1: Extract quoted strings as whole tokens (for paths with spaces)
+    const quoteRegex = /'([^']*)'|"([^"]*)"/g;
+    let qMatch: RegExpExecArray | null;
+    while ((qMatch = quoteRegex.exec(command)) !== null) {
+      const quoted = qMatch[1] ?? qMatch[2] ?? "";
+      if (quoted) candidates.push(quoted);
+    }
+
+    // Pass 2: Strip all quotes and shell operators, then split by whitespace.
+    // This exposes file references hidden inside quoted script arguments.
+    const stripped = command
+      .replace(/["'`]/g, " ")
+      .replace(/&&|\|\||>>|<<|\$\(|[\|&;()<>=]/g, " ")
+      .split(/\s+/)
+      .filter((t) => t.length > 0);
+    for (const token of stripped) {
+      candidates.push(token);
+    }
+
+    // Filter to tokens that resolve to existing files/directories on disk
+    const existingPaths: string[] = [];
+    const seen = new Set<string>();
+    for (const candidate of candidates) {
+      // Skip flags
+      if (candidate.startsWith("-")) continue;
+      // Skip shell variable references
+      if (candidate.startsWith("$")) continue;
+      // Skip pure numbers
+      if (/^\d+$/.test(candidate)) continue;
+      // Skip very short tokens (likely not paths)
+      if (candidate.length < 2) continue;
+      // Skip duplicates
+      if (seen.has(candidate)) continue;
+      seen.add(candidate);
+
+      const absolutePath = path.resolve(cwd, candidate);
+      try {
+        if (fs.existsSync(absolutePath)) {
+          existingPaths.push(candidate);
+        }
+      } catch {
+        // Ignore stat errors
+      }
+    }
+
+    return existingPaths;
+  }
+
+  /**
+   * Check a bash command for references to gitignored files.
+   *
+   * Extracts all path-like tokens from the command that resolve to existing
+   * files/directories on disk, then checks each against `git check-ignore`.
+   * If any gitignored path is found (outside `.pi/`), the command is blocked.
+   */
+  async function checkBashCommand(
+    command: string,
+    cwd: string,
+  ): Promise<{ block: boolean; reason?: string }> {
+    const candidates = extractExistingPaths(command, cwd);
+
+    // Check each candidate path — block on the first gitignored match
+    for (const candidate of candidates) {
+      if (isInsidePiFolder(candidate, cwd)) continue;
+
+      const ignored = await isGitIgnored(candidate, cwd);
+      if (ignored) {
+        const displayPath =
+          path.relative(cwd, path.resolve(cwd, candidate)) || candidate;
+        return {
+          block: true,
+          reason: `Access denied: this bash command references '${displayPath}', which is gitignored and not inside a .pi/ folder. You must not read, write, or access gitignored files through bash commands, pipes, subshells, symlinks, or any other method. Do not attempt to bypass this restriction.`,
+        };
+      }
     }
 
     return { block: false };
@@ -156,7 +262,12 @@ export default function (pi: ExtensionAPI) {
       return checkPath(event.input.path ?? "", cwd, "write");
     }
 
-    // bash: not intercepted — see limitation note in file header
+    // --- bash: scan command for gitignored file references ---
+    if (isToolCallEventType("bash", event)) {
+      const command = event.input.command ?? "";
+      if (!command) return { block: false };
+      return checkBashCommand(command, cwd);
+    }
   });
 
   // Detect git repo on session start and notify the user.
