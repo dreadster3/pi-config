@@ -1,9 +1,9 @@
 {
-  "defaultModel": "minimax-m3:cloud",
-  "defaultProvider": "ollama",
+  "defaultModel": "minimax-m3",
+  "defaultProvider": "litellm",
   "defaultThinkingLevel": "medium",
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "0.79.3",
+  "lastChangelogVersion": "0.80.3",
   "packages": [
     {
       "source": "npm:pi-subagents",
@@ -17,83 +17,69 @@
     "npm:@juicesharp/rpiv-ask-user-question@v1.19.1",
     "npm:@juicesharp/rpiv-todo@v1.19.1",
     {
-      "source": "git:github.com/anthropics/skills",
       "skills": [
         "skills/algorithmic-art",
         "skills/skill-creator",
         "skills/pdf",
         "skills/webapp-testing",
         "skills/theme-factory"
-      ]
+      ],
+      "source": "git:github.com/anthropics/skills"
     },
     {
-      "source": "git:github.com/vercel-labs/opensrc@v0.7.2",
-      "skills": ["skills/opensrc"]
+      "skills": ["skills/opensrc"],
+      "source": "git:github.com/vercel-labs/opensrc@v0.7.2"
     },
     {
-      "source": "git:github.com/mattpocock/skills@694fa30311e02c2639942308513555e61ee84a6f",
-      "skills": ["skills/engineering/tdd"]
+      "skills": ["skills/engineering/tdd"],
+      "source": "git:github.com/mattpocock/skills@694fa30311e02c2639942308513555e61ee84a6f"
     },
     "npm:pi-mcp-adapter",
-    "git:github.com/dreadster3/kilo-pi-provider@feat/kilo-apikey-env-var-syntax"
+    "git:github.com/dreadster3/kilo-pi-provider@feat/kilo-apikey-env-var-syntax",
+    "npm:pi-provider-litellm@1.2.8"
   ],
   "subagents": {
     "agentOverrides": {
       "context-builder": {
-        "fallbackModels": ["opencode-go/minimax-m3", "ollama/qwen3.5:cloud"],
-        "model": "ollama/minimax-m3:cloud",
+        "fallbackModels": ["litellm/qwen3.5"],
+        "model": "litellm/minimax-m3",
         "thinking": "medium"
       },
       "delegate": {
-        "fallbackModels": [
-          "opencode-go/deepseek-v4-flash",
-          "opencode-go/mimo-v2.5"
-        ],
-        "model": "ollama/deepseek-v4-flash:cloud"
+        "fallbackModels": ["litellm/deepseek-v4-pro"],
+        "model": "litellm/deepseek-v4-flash"
       },
       "oracle": {
-        "fallbackModels": [
-          "ollama/deepseek-v4-pro:cloud",
-          "opencode-go/deepseek-v4-pro"
-        ],
-        "model": "opencode-go/qwen3.7-max",
+        "fallbackModels": ["litellm/deepseek-v4-pro"],
+        "model": "litellm/qwen3.7-max",
         "thinking": "high"
       },
       "planner": {
-        "fallbackModels": [
-          "opencode-go/deepseek-v4-pro",
-          "opencode-go/qwen3.7-max"
-        ],
-        "model": "ollama/deepseek-v4-pro:cloud",
+        "fallbackModels": ["litellm/glm-5.2", "litellm/qwen3.7-max"],
+        "model": "litellm/deepseek-v4-pro",
         "thinking": "high"
       },
       "researcher": {
-        "fallbackModels": [
-          "opencode-go/kimi-k2.6",
-          "ollama/deepseek-v4-flash:cloud"
-        ],
-        "model": "ollama/kimi-k2.6:cloud",
+        "fallbackModels": ["litellm/deepseek-v4-flash"],
+        "model": "litellm/kimi-k2.6",
         "thinking": "medium"
       },
       "reviewer": {
-        "fallbackModels": [
-          "ollama/deepseek-v4-pro:cloud",
-          "opencode-go/deepseek-v4-pro"
-        ],
-        "model": "opencode-go/qwen3.7-max",
+        "fallbackModels": ["litellm/qwen3.7-max", "litellm/deepseek-v4-pro"],
+        "model": "litellm/glm-5.2",
         "thinking": "high"
       },
       "scout": {
-        "fallbackModels": [
-          "opencode-go/deepseek-v4-flash",
-          "opencode-go/mimo-v2.5"
-        ],
-        "model": "ollama/deepseek-v4-flash:cloud",
+        "fallbackModels": ["litellm/mimo-v2.5"],
+        "model": "litellm/deepseek-v4-flash",
         "thinking": "low"
       },
       "worker": {
-        "fallbackModels": ["opencode-go/minimax-m3", "ollama/glm-5.1:cloud"],
-        "model": "ollama/minimax-m3:cloud",
+        "fallbackModels": [
+          "litellm/deepseek-v4-pro",
+          "litellm/deepseek-v4-pro"
+        ],
+        "model": "litellm/minimax-m3",
         "thinking": "high"
       }
     }

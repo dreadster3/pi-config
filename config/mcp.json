@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "context-mode": {
+      "command": "context-mode"
+    },
+    "github": {
+      "url": "https://<litellm-url>/github/mcp",
+      "auth": "oauth",
+      "headers": {
+        "x-litellm-api-key": "Bearer <litellm-api-key>"
+      }
+    }
+  }
+}
