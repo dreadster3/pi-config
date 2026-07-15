@@ -7,8 +7,29 @@
       "url": "https://<litellm-url>/github/mcp",
       "auth": "oauth",
       "headers": {
-        "x-litellm-api-key": "Bearer <litellm-api-key>"
+        "x-litellm-api-key": "Bearer ${LITELLM_API_KEY}"
       }
+    },
+    "searxng": {
+      "url": "https://<litellm-url>/searxng/mcp",
+      "auth": "bearer",
+      "bearerToken": "Bearer ${LITELLM_API_KEY}"
+    },
+    "terraform": {
+      "url": "https://<litellm-url>/terraform/mcp",
+      "auth": "bearer",
+      "bearerToken": "Bearer ${LITELLM_API_KEY}"
+    },
+    "context7": {
+      "url": "https://<litellm-url>/context7/mcp",
+      "auth": "oauth",
+      "headers": {
+        "x-litellm-api-key": "Bearer ${LITELLM_API_KEY}"
+      }
+    },
+    "playwright": {
+      "command": "bunx",
+      "args": ["@playwright/mcp@latest", "--isolated"]
     }
   }
 }
