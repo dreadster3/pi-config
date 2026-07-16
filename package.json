@@ -1,13 +1,12 @@
 {
   "name": "@dreadster3/pi-config",
   "type": "module",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "Pi coding agent configuration — skills, extensions, prompts, and themes",
   "keywords": [
     "pi-package"
   ],
   "scripts": {
-    "postinstall": "for dir in extensions/*/; do [ -f \"$dir/package.json\" ] && npm install --prefix \"$dir\"; done",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit"
   },
