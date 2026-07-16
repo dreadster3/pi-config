@@ -30,6 +30,10 @@
     "playwright": {
       "command": "bunx",
       "args": ["@playwright/mcp@latest", "--isolated"]
+    },
+    "codebase-memory": {
+      "command": "codebase-memory-mcp",
+      "args": ["--ui=true", "--port=9749"]
     }
   }
 }
