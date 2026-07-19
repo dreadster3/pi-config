@@ -36,7 +36,7 @@ subagent({
       context: "fresh",
       task: "Explore the working tree in <CWD>. ...",
       output: ".pi/artifacts/review-loop/{N}/context.md",
-      outputMode: "file-only"
+      outputMode: "file-only",
     },
     {
       parallel: [
@@ -45,42 +45,42 @@ subagent({
           context: "fresh",
           task: "Read .pi/artifacts/review-loop/{N}/context.md and the working tree. Report correctness issues. Do not modify project/source files; returning findings via the configured output artifact is allowed.",
           output: ".pi/artifacts/review-loop/{N}/review-correctness.md",
-          outputMode: "file-only"
+          outputMode: "file-only",
         },
         {
           agent: "reviewer",
           context: "fresh",
           task: "Read .pi/artifacts/review-loop/{N}/context.md and the working tree. Report test/validation gaps. Do not modify project/source files; returning findings via the configured output artifact is allowed.",
           output: ".pi/artifacts/review-loop/{N}/review-tests.md",
-          outputMode: "file-only"
+          outputMode: "file-only",
         },
         {
           agent: "reviewer",
           context: "fresh",
           task: "Read .pi/artifacts/review-loop/{N}/context.md and the working tree. Report simplicity/maintainability issues. Do not modify project/source files; returning findings via the configured output artifact is allowed.",
           output: ".pi/artifacts/review-loop/{N}/review-simplicity.md",
-          outputMode: "file-only"
-        }
+          outputMode: "file-only",
+        },
       ],
-      concurrency: 3
+      concurrency: 3,
     },
     {
       agent: "planner",
       context: "fresh",
       task: "Read .pi/artifacts/review-loop/{N}/context.md and the .pi/artifacts/review-loop/{N}/review-*.md files. ...",
       output: ".pi/artifacts/review-loop/{N}/plan.md",
-      outputMode: "file-only"
+      outputMode: "file-only",
     },
     {
       agent: "worker",
       context: "fresh",
       task: "Read .pi/artifacts/review-loop/{N}/context.md and .pi/artifacts/review-loop/{N}/plan.md. ...",
       output: ".pi/artifacts/review-loop/{N}/worker-summary.md",
-      outputMode: "file-only"
-    }
+      outputMode: "file-only",
+    },
   ],
-  async: true
-})
+  async: true,
+});
 ```
 
 Wrap this in `async: true` so the main chat is unblocked. Do not launch the four phases as four separate top-level `subagent(...)` calls and stitch the results with the main model — that defeats the chain tool. Use distinct `output` paths per step and per parallel branch (no duplicates). For review-only steps, the task must explicitly say "do not modify project/source files; returning findings via the configured output artifact is allowed" so the reviewer knows the output file is fine but source edits are not.

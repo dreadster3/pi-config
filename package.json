@@ -1,7 +1,7 @@
 {
   "name": "@dreadster3/pi-config",
   "type": "module",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Pi coding agent configuration — skills, extensions, prompts, and themes",
   "keywords": [
     "pi-package"
@@ -11,9 +11,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@earendil-works/pi-coding-agent": "^0.79.1",
-    "@earendil-works/pi-ai": "^0.79.1",
-    "@earendil-works/pi-tui": "^0.79.1"
+    "@earendil-works/pi-coding-agent": "^0.80.10",
+    "@earendil-works/pi-ai": "^0.80.10",
+    "@earendil-works/pi-tui": "^0.80.10"
   },
   "pi": {
     "extensions": [
@@ -30,6 +30,6 @@
     ]
   },
   "devDependencies": {
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   }
 }
