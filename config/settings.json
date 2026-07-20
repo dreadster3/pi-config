@@ -22,7 +22,10 @@
         "skills/skill-creator",
         "skills/pdf",
         "skills/webapp-testing",
-        "skills/theme-factory"
+        "skills/theme-factory",
+        "skills/xlsx",
+        "skills/pptx",
+        "skills/docx"
       ],
       "source": "git:github.com/anthropics/skills"
     },
