@@ -9,13 +9,12 @@
       "source": "npm:pi-subagents",
       "prompts": ["-prompts/review-loop.md"]
     },
-    "git:github.com/nicobailon/visual-explainer@8f1d0e38ab0f265632a31d2fd032f7b730c98c15",
+    "git:github.com/nicobailon/visual-explainer@528b71feb85dab5d92b82c3554880826f50a75da",
     "npm:context-mode",
-    "npm:@ollama/pi-web-search",
     "npm:@plannotator/pi-extension",
     "git:github.com/dreadster3/pi-config",
-    "npm:@juicesharp/rpiv-ask-user-question@v1.19.1",
-    "npm:@juicesharp/rpiv-todo@v1.19.1",
+    "npm:@juicesharp/rpiv-ask-user-question@v2.1.0",
+    "npm:@juicesharp/rpiv-todo@v2.1.0",
     {
       "skills": [
         "skills/algorithmic-art",
@@ -31,15 +30,15 @@
     },
     {
       "skills": ["skills/opensrc"],
-      "source": "git:github.com/vercel-labs/opensrc@v0.7.2"
+      "source": "git:github.com/vercel-labs/opensrc@f96078ac0a7ce3fb7d058d73ce65ff4b6606d765"
     },
     {
       "skills": ["skills/engineering/tdd"],
       "source": "git:github.com/mattpocock/skills@694fa30311e02c2639942308513555e61ee84a6f"
     },
     "npm:pi-mcp-adapter",
-    "git:github.com/dreadster3/kilo-pi-provider@feat/kilo-apikey-env-var-syntax",
-    "npm:pi-provider-litellm@1.2.8"
+    "npm:pi-provider-litellm@2.0.1",
+    "git:github.com/DietrichGebert/ponytail@bc9ee949d5f439e8b9f3bb92c6d6d3d1e6ebd324"
   ],
   "subagents": {
     "agentOverrides": {
