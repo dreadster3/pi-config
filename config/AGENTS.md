@@ -1,3 +1,9 @@
+# Generated artifacts
+
+Any extension or skill that produces files or other persistent output must store
+those artifacts under the project-level `.pi/` directory. Do not write generated
+artifacts elsewhere in the repository.
+
 <!-- codegraph:start -->
 
 # Codegraph — code intelligence over an indexed knowledge graph
