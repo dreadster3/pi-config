@@ -42,39 +42,154 @@
   ],
   "subagents": {
     "agentOverrides": {
+      "advisor": {
+        "fallbackModels": ["litellm/deepseek-v4-pro"],
+        "model": "litellm/qwen3.7-max",
+        "thinking": "high",
+        "acceptanceRole": "read-only",
+        "tools": [
+          "read",
+          "grep",
+          "find",
+          "ls",
+          "bash",
+          "edit",
+          "write",
+          "mcp:codegraph",
+          "mcp:context-mode",
+          "mcp:github",
+          "mcp:context7",
+          "mcp:searxng",
+          "mcp:atlassian",
+          "mcp:terraform"
+        ]
+      },
       "context-builder": {
         "fallbackModels": ["litellm/qwen3.5"],
         "model": "litellm/minimax-m3",
-        "thinking": "medium"
+        "thinking": "medium",
+        "tools": ["read", "grep", "find", "ls", "bash", "edit", "write"]
       },
       "delegate": {
         "fallbackModels": ["litellm/deepseek-v4-pro"],
-        "model": "litellm/deepseek-v4-flash"
+        "model": "litellm/deepseek-v4-flash",
+        "tools": [
+          "read",
+          "grep",
+          "find",
+          "ls",
+          "bash",
+          "edit",
+          "write",
+          "mcp:codegraph",
+          "mcp:context-mode",
+          "mcp:github",
+          "mcp:context7",
+          "mcp:searxng",
+          "mcp:atlassian",
+          "mcp:terraform"
+        ]
       },
       "oracle": {
         "fallbackModels": ["litellm/deepseek-v4-pro"],
         "model": "litellm/qwen3.7-max",
-        "thinking": "high"
+        "thinking": "high",
+        "acceptanceRole": "read-only",
+        "tools": [
+          "read",
+          "grep",
+          "find",
+          "ls",
+          "bash",
+          "edit",
+          "write",
+          "mcp:codegraph",
+          "mcp:context-mode",
+          "mcp:github",
+          "mcp:context7",
+          "mcp:searxng",
+          "mcp:atlassian",
+          "mcp:terraform"
+        ]
       },
       "planner": {
         "fallbackModels": ["litellm/glm-5.2", "litellm/qwen3.7-max"],
         "model": "litellm/deepseek-v4-pro",
-        "thinking": "high"
+        "thinking": "high",
+        "acceptanceRole": "read-only",
+        "tools": [
+          "read",
+          "grep",
+          "find",
+          "ls",
+          "bash",
+          "edit",
+          "write",
+          "mcp:codegraph",
+          "mcp:context-mode",
+          "mcp:github",
+          "mcp:context7",
+          "mcp:searxng",
+          "mcp:atlassian",
+          "mcp:terraform"
+        ]
       },
       "researcher": {
         "fallbackModels": ["litellm/deepseek-v4-flash"],
         "model": "litellm/kimi-k2.6",
-        "thinking": "medium"
+        "thinking": "medium",
+        "tools": [
+          "read",
+          "grep",
+          "find",
+          "ls",
+          "bash",
+          "edit",
+          "write",
+          "mcp:codegraph",
+          "mcp:context-mode",
+          "mcp:github",
+          "mcp:context7",
+          "mcp:searxng",
+          "mcp:terraform"
+        ]
       },
       "reviewer": {
         "fallbackModels": ["litellm/qwen3.7-max", "litellm/deepseek-v4-pro"],
         "model": "litellm/glm-5.2",
-        "thinking": "high"
+        "thinking": "high",
+        "acceptanceRole": "read-only",
+        "tools": [
+          "read",
+          "grep",
+          "find",
+          "ls",
+          "bash",
+          "edit",
+          "write",
+          "mcp:codegraph",
+          "mcp:context7",
+          "mcp:context-mode"
+        ]
       },
       "scout": {
         "fallbackModels": ["litellm/mimo-v2.5"],
         "model": "litellm/deepseek-v4-flash",
-        "thinking": "low"
+        "thinking": "low",
+        "acceptanceRole": "read-only",
+        "tools": [
+          "read",
+          "grep",
+          "find",
+          "ls",
+          "bash",
+          "write",
+          "mcp:codegraph",
+          "mcp:searxng",
+          "mcp:github",
+          "mcp:atlassian",
+          "mcp:context-mode"
+        ]
       },
       "worker": {
         "fallbackModels": [
@@ -82,7 +197,22 @@
           "litellm/deepseek-v4-pro"
         ],
         "model": "litellm/minimax-m3",
-        "thinking": "high"
+        "thinking": "high",
+        "tools": [
+          "read",
+          "grep",
+          "find",
+          "ls",
+          "bash",
+          "edit",
+          "write",
+          "mcp:codegraph",
+          "mcp:context-mode",
+          "mcp:github",
+          "mcp:context7",
+          "mcp:searxng",
+          "mcp:terraform"
+        ]
       }
     }
   },
