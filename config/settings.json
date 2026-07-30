@@ -65,7 +65,7 @@
         ]
       },
       "context-builder": {
-        "fallbackModels": ["litellm/qwen3.5"],
+        "fallbackModels": ["litellm/gpt-5.6-luna", "litellm/deepseek-v4-pro"],
         "model": "litellm/minimax-m3",
         "thinking": "medium",
         "tools": ["read", "grep", "find", "ls", "bash", "edit", "write"]
@@ -91,8 +91,8 @@
         ]
       },
       "oracle": {
-        "fallbackModels": ["litellm/deepseek-v4-pro"],
-        "model": "litellm/qwen3.7-max",
+        "fallbackModels": ["litellm/claude-sonnet-5", "litellm/glm-5.2"],
+        "model": "litellm/gpt-5.6-terra",
         "thinking": "high",
         "acceptanceRole": "read-only",
         "tools": [
@@ -113,8 +113,11 @@
         ]
       },
       "planner": {
-        "fallbackModels": ["litellm/glm-5.2", "litellm/qwen3.7-max"],
-        "model": "litellm/deepseek-v4-pro",
+        "fallbackModels": [
+          "litellm/deepseek-v4-pro",
+          "litellm/claude-sonnet-5"
+        ],
+        "model": "litellm/glm-5.2",
         "thinking": "high",
         "acceptanceRole": "read-only",
         "tools": [
@@ -135,8 +138,8 @@
         ]
       },
       "researcher": {
-        "fallbackModels": ["litellm/deepseek-v4-flash"],
-        "model": "litellm/kimi-k2.6",
+        "fallbackModels": ["litellm/deepseek-v4-pro"],
+        "model": "litellm/kimi-k2.7-code",
         "thinking": "medium",
         "tools": [
           "read",
@@ -155,8 +158,12 @@
         ]
       },
       "reviewer": {
-        "fallbackModels": ["litellm/qwen3.7-max", "litellm/deepseek-v4-pro"],
-        "model": "litellm/glm-5.2",
+        "fallbackModels": [
+          "litellm/gpt-5.6-terra",
+          "litellm/glm-5.2",
+          "litellm/deepseek-v4-pro"
+        ],
+        "model": "litellm/claude-sonnet-5",
         "thinking": "high",
         "acceptanceRole": "read-only",
         "tools": [
@@ -173,7 +180,7 @@
         ]
       },
       "scout": {
-        "fallbackModels": ["litellm/mimo-v2.5"],
+        "fallbackModels": ["litellm/gpt-5.6-luna"],
         "model": "litellm/deepseek-v4-flash",
         "thinking": "low",
         "acceptanceRole": "read-only",
@@ -192,10 +199,7 @@
         ]
       },
       "worker": {
-        "fallbackModels": [
-          "litellm/deepseek-v4-pro",
-          "litellm/deepseek-v4-pro"
-        ],
+        "fallbackModels": ["litellm/gpt-5.6-luna", "litellm/deepseek-v4-pro"],
         "model": "litellm/minimax-m3",
         "thinking": "high",
         "tools": [
