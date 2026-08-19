@@ -15,8 +15,8 @@
     "npm:context-mode",
     "npm:@plannotator/pi-extension",
     "git:github.com/dreadster3/pi-config",
-    "npm:@juicesharp/rpiv-ask-user-question@v2.1.0",
-    "npm:@juicesharp/rpiv-todo@v2.1.0",
+    "npm:@juicesharp/rpiv-ask-user-question@v2.6.2",
+    "npm:@juicesharp/rpiv-todo@v2.6.2",
     {
       "skills": [
         "skills/algorithmic-art",
@@ -43,7 +43,7 @@
       "source": "git:github.com/mattpocock/skills@694fa30311e02c2639942308513555e61ee84a6f"
     },
     "npm:pi-mcp-adapter",
-    "npm:pi-provider-litellm@2.0.1",
+    "npm:pi-provider-litellm@2.0.6",
     "git:github.com/DietrichGebert/ponytail@bc9ee949d5f439e8b9f3bb92c6d6d3d1e6ebd324"
   ],
   "subagents": {
@@ -252,6 +252,14 @@
           "mcp:terraform"
         ]
       }
+    }
+  },
+  "litellm": {
+    "skills": {
+      "enabled": false
+    },
+    "mcp": {
+      "enabled": false
     }
   },
   "theme": "catppuccin-mocha"
