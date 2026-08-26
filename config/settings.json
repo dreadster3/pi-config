@@ -1,7 +1,7 @@
 {
   "defaultModel": "deepseek-v4-flash",
   "defaultProvider": "litellm",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
   "lastChangelogVersion": "0.84.3",
   "packages": [
@@ -203,6 +203,7 @@
       }
     }
   },
+  "enabledModels": ["litellm/*"],
   "litellm": {
     "skills": {
       "enabled": false
