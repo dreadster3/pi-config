@@ -1,22 +1,21 @@
 {
-  "defaultModel": "minimax-m3",
+  "defaultModel": "deepseek-v4-flash",
   "defaultProvider": "litellm",
   "defaultThinkingLevel": "medium",
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "0.83.0",
+  "lastChangelogVersion": "0.84.3",
   "packages": [
     {
       "source": "npm:pi-subagents",
-      "prompts": [
-        "-prompts/review-loop.md"
-      ]
+      "prompts": ["-prompts/review-loop.md"]
     },
-    "git:github.com/nicobailon/visual-explainer@528b71feb85dab5d92b82c3554880826f50a75da",
+    "git:github.com/nicobailon/visual-explainer@df35d97a00191d8aba831e757a65dd6ce0514fc0",
     "npm:context-mode",
     "npm:@plannotator/pi-extension",
     "git:github.com/dreadster3/pi-config",
     "npm:@juicesharp/rpiv-ask-user-question@v2.6.2",
     "npm:@juicesharp/rpiv-todo@v2.6.2",
+    "npm:@juicesharp/rpiv-btw@v2.6.2",
     {
       "skills": [
         "skills/algorithmic-art",
@@ -31,48 +30,22 @@
       "source": "git:github.com/anthropics/skills"
     },
     {
-      "skills": [
-        "skills/opensrc"
-      ],
+      "skills": ["skills/opensrc"],
       "source": "git:github.com/vercel-labs/opensrc@f96078ac0a7ce3fb7d058d73ce65ff4b6606d765"
     },
     {
       "skills": [
-        "skills/engineering/tdd"
+        "skills/engineering/tdd",
+        "skills/engineering/improve-codebase-architecture"
       ],
-      "source": "git:github.com/mattpocock/skills@694fa30311e02c2639942308513555e61ee84a6f"
+      "source": "git:github.com/mattpocock/skills@6acc160e4e0cd062dbbbd7a1b26ae92855edf07e"
     },
     "npm:pi-mcp-adapter",
-    "npm:pi-provider-litellm@2.0.6",
-    "git:github.com/DietrichGebert/ponytail@bc9ee949d5f439e8b9f3bb92c6d6d3d1e6ebd324"
+    "npm:pi-provider-litellm@2.3.0",
+    "git:github.com/DietrichGebert/ponytail@0a4dd63ad4541f4f655c4108a295916f3c1d8fda"
   ],
   "subagents": {
     "agentOverrides": {
-      "advisor": {
-        "fallbackModels": [
-          "litellm/claude-sonnet-5",
-          "litellm/glm-5.2"
-        ],
-        "model": "litellm/gpt-5.6-terra",
-        "thinking": "high",
-        "acceptanceRole": "read-only",
-        "tools": [
-          "read",
-          "grep",
-          "find",
-          "ls",
-          "bash",
-          "edit",
-          "write",
-          "mcp:codegraph",
-          "mcp:context-mode",
-          "mcp:github",
-          "mcp:context7",
-          "mcp:searxng",
-          "mcp:atlassian",
-          "mcp:terraform"
-        ]
-      },
       "context-builder": {
         "fallbackModels": [
           "litellm/minimax-m3",
@@ -81,20 +54,10 @@
         ],
         "model": "litellm/deepseek-v4-flash",
         "thinking": "medium",
-        "tools": [
-          "read",
-          "grep",
-          "find",
-          "ls",
-          "bash",
-          "edit",
-          "write"
-        ]
+        "tools": ["read", "grep", "find", "ls", "bash", "edit", "write"]
       },
       "delegate": {
-        "fallbackModels": [
-          "litellm/deepseek-v4-pro"
-        ],
+        "fallbackModels": ["litellm/deepseek-v4-pro"],
         "model": "litellm/deepseek-v4-flash",
         "tools": [
           "read",
@@ -109,16 +72,12 @@
           "mcp:github",
           "mcp:context7",
           "mcp:searxng",
-          "mcp:atlassian",
           "mcp:terraform"
         ]
       },
       "oracle": {
-        "fallbackModels": [
-          "litellm/claude-sonnet-5",
-          "litellm/glm-5.2"
-        ],
-        "model": "litellm/gpt-5.6-terra",
+        "fallbackModels": ["litellm/glm-5.3"],
+        "model": "litellm/qwen3.8-max",
         "thinking": "high",
         "acceptanceRole": "read-only",
         "tools": [
@@ -134,16 +93,12 @@
           "mcp:github",
           "mcp:context7",
           "mcp:searxng",
-          "mcp:atlassian",
           "mcp:terraform"
         ]
       },
       "planner": {
-        "fallbackModels": [
-          "litellm/deepseek-v4-flash",
-          "litellm/claude-sonnet-5"
-        ],
-        "model": "litellm/glm-5.2",
+        "fallbackModels": ["litellm/qwen3.8-max", "litellm/claude-sonnet-5"],
+        "model": "litellm/glm-5.3",
         "thinking": "high",
         "acceptanceRole": "read-only",
         "tools": [
@@ -159,15 +114,12 @@
           "mcp:github",
           "mcp:context7",
           "mcp:searxng",
-          "mcp:atlassian",
           "mcp:terraform"
         ]
       },
       "researcher": {
-        "fallbackModels": [
-          "litellm/deepseek-v4-pro"
-        ],
-        "model": "litellm/kimi-k2.7-code",
+        "fallbackModels": ["litellm/deepseek-v4-pro"],
+        "model": "litellm/kimi-k3",
         "thinking": "medium",
         "tools": [
           "read",
@@ -188,10 +140,10 @@
       "reviewer": {
         "fallbackModels": [
           "litellm/gpt-5.6-terra",
-          "litellm/glm-5.2",
+          "litellm/claude-sonnet-5",
           "litellm/deepseek-v4-pro"
         ],
-        "model": "litellm/claude-sonnet-5",
+        "model": "litellm/glm-5.3",
         "thinking": "high",
         "acceptanceRole": "read-only",
         "tools": [
@@ -208,9 +160,7 @@
         ]
       },
       "scout": {
-        "fallbackModels": [
-          "litellm/gpt-5.6-luna"
-        ],
+        "fallbackModels": ["litellm/gpt-5.6-luna"],
         "model": "litellm/deepseek-v4-flash",
         "thinking": "low",
         "acceptanceRole": "read-only",
@@ -224,14 +174,13 @@
           "mcp:codegraph",
           "mcp:searxng",
           "mcp:github",
-          "mcp:atlassian",
           "mcp:context-mode"
         ]
       },
       "worker": {
         "fallbackModels": [
-          "litellm/minimax-m3",
           "litellm/gpt-5.6-luna",
+          "litellm/minimax-m3",
           "litellm/deepseek-v4-pro"
         ],
         "model": "litellm/deepseek-v4-flash",

@@ -29,7 +29,7 @@ pi install git:github.com/dreadster3/pi-config
 | Extension              | Description                                                                                                                                   |
 | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | `gitignore-protection` | Blocks pi from reading/writing gitignored files and folders, except inside `.pi/` directories. Uses `git check-ignore` for accurate matching. |
-| `git-main-protection`  | Prevents git commits and pushes on the default branch.                                                                                        |
+| `git-main-protection`  | Prevents git commits and pushes on the default branch; toggle with `/git-protection`.                                                         |
 | `confirm-destructive`  | Prompts for confirmation before destructive session actions (clear, switch, fork).                                                            |
 | `copilot-instructions` | Loads `.github/copilot-instructions.md` into the system prompt.                                                                               |
 | `tools`                | Provides a `/tools` command to enable/disable tools interactively.                                                                            |
