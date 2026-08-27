@@ -40,6 +40,18 @@
       ],
       "source": "git:github.com/mattpocock/skills@6acc160e4e0cd062dbbbd7a1b26ae92855edf07e"
     },
+    {
+      "skills": [
+        "skills/caveman",
+        "skills/caveman-commit",
+        "skills/caveman-review",
+        "skills/caveman-help",
+        "skills/caveman-review",
+        "skills/caveman-stats",
+        "skills/safe-refactor"
+      ],
+      "source": "git:github.com/JuliusBrussee/caveman@b4335705d436f5110386a1c39c6d8aed5002aeeb"
+    },
     "npm:pi-mcp-adapter",
     "npm:pi-provider-litellm@2.3.0",
     "git:github.com/DietrichGebert/ponytail@0a4dd63ad4541f4f655c4108a295916f3c1d8fda"
@@ -203,7 +215,12 @@
       }
     }
   },
-  "enabledModels": ["litellm/*"],
+  "enabledModels": [
+    "litellm/gpt-5.6-luna",
+    "litellm/minimax-m3",
+    "litellm/deepseek-v4-flash",
+    "litellm/glm-5.2"
+  ],
   "litellm": {
     "skills": {
       "enabled": false
