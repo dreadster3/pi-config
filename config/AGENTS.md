@@ -4,6 +4,31 @@ Any extension or skill that produces files or other persistent output must store
 those artifacts under the project-level `.pi/` directory. Do not write generated
 artifacts elsewhere in the repository.
 
+## Semantic commits
+
+Use Conventional Commits for every commit:
+
+```text
+<type>(<scope>): <description>
+```
+
+Keep the type lowercase and the description concise and imperative. Use the
+scope when it clarifies the affected area, for example `feat(extensions): add
+...` or `fix(config): correct ...`. When a JIRA ticket is associated with the
+change, put its key at the start of the description, after the colon, in square
+brackets:
+
+```text
+feat(extensions): [PROJ-123] add a new extension
+```
+
+Because changes are usually squash-merged, apply the same format to the final
+squash commit (typically the PR title), not only to the individual commits.
+
+Do not put the JIRA key before the commit type or use it as the scope; keeping
+it in the description preserves the semantic commit header and leaves the
+scope available for the affected area.
+
 <!-- codegraph:start -->
 
 # Codegraph — code intelligence over an indexed knowledge graph
