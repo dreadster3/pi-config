@@ -58,6 +58,7 @@
   ],
   "subagents": {
     "defaultModel": "deepseek-v4.1-flash",
+    "defaultProvider": "litellm",
     "defaultThinking": "high",
     "agentOverrides": {
       "delegate": {
@@ -74,7 +75,6 @@
           "mcp:context-mode",
           "mcp:github",
           "mcp:context7",
-          "mcp:searxng",
           "mcp:terraform"
         ]
       },
@@ -96,6 +96,10 @@
           "mcp:context7",
           "mcp:searxng",
           "mcp:terraform"
+        ],
+        "excludeTools": [
+          "searxng_get_searxng_server_configuration",
+          "searxng_get_searxng_usage_guide"
         ]
       },
       "researcher": {
@@ -113,6 +117,10 @@
           "mcp:context7",
           "mcp:searxng",
           "mcp:terraform"
+        ],
+        "excludeTools": [
+          "searxng_get_searxng_server_configuration",
+          "searxng_get_searxng_usage_guide"
         ]
       },
       "reviewer": {
@@ -165,6 +173,10 @@
           "mcp:context7",
           "mcp:searxng",
           "mcp:terraform"
+        ],
+        "excludeTools": [
+          "searxng_get_searxng_server_configuration",
+          "searxng_get_searxng_usage_guide"
         ]
       }
     }
