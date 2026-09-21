@@ -9,23 +9,24 @@
       "source": "npm:pi-subagents",
       "prompts": ["-prompts/review-loop.md"]
     },
-    "git:github.com/nicobailon/visual-explainer@df35d97a00191d8aba831e757a65dd6ce0514fc0",
+    "git:github.com/nicobailon/visual-explainer@7163c3e10660912e0b89e1af465db9f387282b88",
     "npm:context-mode",
     "npm:@plannotator/pi-extension",
     "git:github.com/dreadster3/pi-config",
-    "npm:@juicesharp/rpiv-ask-user-question@v2.6.2",
-    "npm:@juicesharp/rpiv-todo@v2.6.2",
-    "npm:@juicesharp/rpiv-btw@v2.6.2",
+    "npm:@juicesharp/rpiv-ask-user-question@v2.10.1",
+    "npm:@juicesharp/rpiv-todo@v2.10.1",
+    "npm:@juicesharp/rpiv-btw@v2.10.1",
     {
       "skills": [
         "skills/algorithmic-art",
-        "skills/skill-creator",
+        "skills/docx",
+        "skills/mcp-builder",
         "skills/pdf",
-        "skills/webapp-testing",
-        "skills/theme-factory",
-        "skills/xlsx",
         "skills/pptx",
-        "skills/docx"
+        "skills/skill-creator",
+        "skills/theme-factory",
+        "skills/webapp-testing",
+        "skills/xlsx"
       ],
       "source": "git:github.com/anthropics/skills"
     },
@@ -53,8 +54,8 @@
       "source": "git:github.com/JuliusBrussee/caveman@b4335705d436f5110386a1c39c6d8aed5002aeeb"
     },
     "npm:pi-mcp-adapter",
-    "npm:pi-provider-litellm@2.3.0",
-    "git:github.com/DietrichGebert/ponytail@0a4dd63ad4541f4f655c4108a295916f3c1d8fda"
+    "npm:pi-provider-litellm@3.1.0",
+    "git:github.com/DietrichGebert/ponytail@1d95ff7d39de12d87014ea40d4e22201bddc501b"
   ],
   "subagents": {
     "defaultModel": "deepseek-v4.1-flash",
