@@ -80,7 +80,7 @@
         ]
       },
       "oracle": {
-        "model": "litellm/glm-5.3",
+        "model": "litellm/kimi-k3",
         "thinking": "high",
         "acceptanceRole": "read-only",
         "tools": [
@@ -188,7 +188,8 @@
     "litellm/glm-5.3",
     "litellm/glm-5.3-flash",
     "litellm/qwen3.8-max",
-    "litellm/qwen3.8-flash"
+    "litellm/qwen3.8-flash",
+    "litellm/kimi-k3"
   ],
   "litellm": {
     "skills": {
