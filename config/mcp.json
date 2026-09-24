@@ -1,8 +1,5 @@
 {
   "mcpServers": {
-    "context-mode": {
-      "command": "context-mode"
-    },
     "github": {
       "url": "https://<litellm-url>/github/mcp",
       "auth": "oauth",
@@ -29,17 +26,11 @@
     },
     "playwright": {
       "command": "bunx",
-      "args": [
-        "@playwright/mcp@latest",
-        "--isolated"
-      ]
+      "args": ["@playwright/mcp@latest", "--isolated"]
     },
     "codegraph": {
       "command": "codegraph",
-      "args": [
-        "serve",
-        "--mcp"
-      ]
+      "args": ["serve", "--mcp"]
     }
   }
 }

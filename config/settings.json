@@ -3,14 +3,13 @@
   "defaultProvider": "litellm",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "0.85.1",
+  "lastChangelogVersion": "0.87.1",
   "packages": [
     {
       "source": "npm:pi-subagents",
       "prompts": ["-prompts/review-loop.md"]
     },
     "git:github.com/nicobailon/visual-explainer@7163c3e10660912e0b89e1af465db9f387282b88",
-    "npm:context-mode",
     "npm:@plannotator/pi-extension",
     "git:github.com/dreadster3/pi-config",
     "npm:@juicesharp/rpiv-ask-user-question@v2.10.1",
@@ -73,7 +72,6 @@
           "edit",
           "write",
           "mcp:codegraph",
-          "mcp:context-mode",
           "mcp:github",
           "mcp:context7",
           "mcp:terraform"
@@ -92,7 +90,6 @@
           "edit",
           "write",
           "mcp:codegraph",
-          "mcp:context-mode",
           "mcp:github",
           "mcp:context7",
           "mcp:searxng",
@@ -137,8 +134,7 @@
           "edit",
           "write",
           "mcp:codegraph",
-          "mcp:context7",
-          "mcp:context-mode"
+          "mcp:context7"
         ]
       },
       "scout": {
@@ -153,8 +149,7 @@
           "bash",
           "write",
           "mcp:codegraph",
-          "mcp:github",
-          "mcp:context-mode"
+          "mcp:github"
         ]
       },
       "worker": {
@@ -169,7 +164,6 @@
           "edit",
           "write",
           "mcp:codegraph",
-          "mcp:context-mode",
           "mcp:github",
           "mcp:context7",
           "mcp:searxng",
