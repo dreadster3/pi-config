@@ -3,7 +3,8 @@
   "defaultProvider": "litellm",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "0.87.1",
+  "lastChangelogVersion": "0.99.1",
+  "defaultTools": ["+codemode"],
   "packages": [
     {
       "source": "npm:pi-subagents",
@@ -12,9 +13,9 @@
     "git:github.com/nicobailon/visual-explainer@7163c3e10660912e0b89e1af465db9f387282b88",
     "npm:@plannotator/pi-extension",
     "git:github.com/dreadster3/pi-config",
-    "npm:@juicesharp/rpiv-ask-user-question@v2.10.1",
-    "npm:@juicesharp/rpiv-todo@v2.10.1",
-    "npm:@juicesharp/rpiv-btw@v2.10.1",
+    "npm:@juicesharp/rpiv-ask-user-question@v2.11.0",
+    "npm:@juicesharp/rpiv-todo@v2.11.0",
+    "npm:@juicesharp/rpiv-btw@v2.11.0",
     {
       "skills": [
         "skills/algorithmic-art",
@@ -53,8 +54,9 @@
       "source": "git:github.com/JuliusBrussee/caveman@b4335705d436f5110386a1c39c6d8aed5002aeeb"
     },
     "npm:pi-mcp-adapter",
-    "npm:pi-provider-litellm@3.1.0",
-    "git:github.com/DietrichGebert/ponytail@1d95ff7d39de12d87014ea40d4e22201bddc501b"
+    "npm:pi-provider-litellm@3.2.0",
+    "git:github.com/DietrichGebert/ponytail@1d95ff7d39de12d87014ea40d4e22201bddc501b",
+    "npm:pi-intercom"
   ],
   "subagents": {
     "defaultModel": "deepseek-v4.1-flash",
@@ -71,10 +73,16 @@
           "bash",
           "edit",
           "write",
-          "mcp:codegraph",
           "mcp:github",
           "mcp:context7",
-          "mcp:terraform"
+          "mcp:terraform",
+          "mcp:codegraph"
+        ],
+        "excludeTools": [
+          "github_get_github_get_me_ui",
+          "github_get_github_issue_write_ui",
+          "github_get_github_pr_edit_ui",
+          "github_get_github_pr_write_ui"
         ]
       },
       "oracle": {
@@ -89,13 +97,17 @@
           "bash",
           "edit",
           "write",
-          "mcp:codegraph",
           "mcp:github",
           "mcp:context7",
           "mcp:searxng",
-          "mcp:terraform"
+          "mcp:terraform",
+          "mcp:codegraph"
         ],
         "excludeTools": [
+          "github_get_github_get_me_ui",
+          "github_get_github_issue_write_ui",
+          "github_get_github_pr_edit_ui",
+          "github_get_github_pr_write_ui",
           "searxng_get_searxng_server_configuration",
           "searxng_get_searxng_usage_guide"
         ]
@@ -114,9 +126,14 @@
           "mcp:github",
           "mcp:context7",
           "mcp:searxng",
-          "mcp:terraform"
+          "mcp:terraform",
+          "mcp:nixos"
         ],
         "excludeTools": [
+          "github_get_github_get_me_ui",
+          "github_get_github_issue_write_ui",
+          "github_get_github_pr_edit_ui",
+          "github_get_github_pr_write_ui",
           "searxng_get_searxng_server_configuration",
           "searxng_get_searxng_usage_guide"
         ]
@@ -133,8 +150,8 @@
           "bash",
           "edit",
           "write",
-          "mcp:codegraph",
-          "mcp:context7"
+          "mcp:context7",
+          "mcp:codegraph"
         ]
       },
       "scout": {
@@ -148,8 +165,14 @@
           "ls",
           "bash",
           "write",
-          "mcp:codegraph",
-          "mcp:github"
+          "mcp:github",
+          "mcp:codegraph"
+        ],
+        "excludeTools": [
+          "github_get_github_get_me_ui",
+          "github_get_github_issue_write_ui",
+          "github_get_github_pr_edit_ui",
+          "github_get_github_pr_write_ui"
         ]
       },
       "worker": {
@@ -163,13 +186,18 @@
           "bash",
           "edit",
           "write",
-          "mcp:codegraph",
           "mcp:github",
           "mcp:context7",
           "mcp:searxng",
-          "mcp:terraform"
+          "mcp:terraform",
+          "mcp:codegraph",
+          "mcp:playwright"
         ],
         "excludeTools": [
+          "github_get_github_get_me_ui",
+          "github_get_github_issue_write_ui",
+          "github_get_github_pr_edit_ui",
+          "github_get_github_pr_write_ui",
           "searxng_get_searxng_server_configuration",
           "searxng_get_searxng_usage_guide"
         ]
