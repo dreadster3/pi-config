@@ -3,19 +3,23 @@
   "defaultProvider": "litellm",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "0.99.1",
-  "defaultTools": ["+codemode"],
+  "lastChangelogVersion": "1.0.1",
+  "defaultTools": [
+    "+codemode"
+  ],
   "packages": [
     {
       "source": "npm:pi-subagents",
-      "prompts": ["-prompts/review-loop.md"]
+      "prompts": [
+        "-prompts/review-loop.md"
+      ]
     },
-    "git:github.com/nicobailon/visual-explainer@7163c3e10660912e0b89e1af465db9f387282b88",
+    "git:github.com/nicobailon/visual-explainer@6376b7727bb9b1d5d37ad3e4d96d969a6499917b",
     "npm:@plannotator/pi-extension",
     "git:github.com/dreadster3/pi-config",
-    "npm:@juicesharp/rpiv-ask-user-question@v2.11.0",
-    "npm:@juicesharp/rpiv-todo@v2.11.0",
-    "npm:@juicesharp/rpiv-btw@v2.11.0",
+    "npm:@juicesharp/rpiv-ask-user-question@v2.12.0",
+    "npm:@juicesharp/rpiv-todo@v2.12.0",
+    "npm:@juicesharp/rpiv-btw@v2.12.0",
     {
       "skills": [
         "skills/algorithmic-art",
@@ -31,15 +35,11 @@
       "source": "git:github.com/anthropics/skills"
     },
     {
-      "skills": ["skills/opensrc"],
-      "source": "git:github.com/vercel-labs/opensrc@f96078ac0a7ce3fb7d058d73ce65ff4b6606d765"
-    },
-    {
       "skills": [
         "skills/engineering/tdd",
         "skills/engineering/improve-codebase-architecture"
       ],
-      "source": "git:github.com/mattpocock/skills@6acc160e4e0cd062dbbbd7a1b26ae92855edf07e"
+      "source": "git:github.com/mattpocock/skills@d81f3a183412e71a5b1e84ca21bc1a35eea03a60"
     },
     {
       "skills": [
@@ -51,11 +51,11 @@
         "skills/caveman-stats",
         "skills/safe-refactor"
       ],
-      "source": "git:github.com/JuliusBrussee/caveman@b4335705d436f5110386a1c39c6d8aed5002aeeb"
+      "source": "git:github.com/JuliusBrussee/caveman@b33a39554ed06cbc7d7d3198ff90c171e8043b69"
     },
     "npm:pi-mcp-adapter",
-    "npm:pi-provider-litellm@3.2.0",
-    "git:github.com/DietrichGebert/ponytail@1d95ff7d39de12d87014ea40d4e22201bddc501b",
+    "npm:pi-provider-litellm@3.3.0",
+    "git:github.com/DietrichGebert/ponytail@c6ce46179874ea7368da0eb9e67c1ad5c10f08bc",
     "npm:pi-intercom"
   ],
   "subagents": {
@@ -79,10 +79,7 @@
           "mcp:codegraph"
         ],
         "excludeTools": [
-          "github_get_github_get_me_ui",
-          "github_get_github_issue_write_ui",
-          "github_get_github_pr_edit_ui",
-          "github_get_github_pr_write_ui"
+          "github_github-ui_get"
         ]
       },
       "oracle": {
@@ -104,12 +101,7 @@
           "mcp:codegraph"
         ],
         "excludeTools": [
-          "github_get_github_get_me_ui",
-          "github_get_github_issue_write_ui",
-          "github_get_github_pr_edit_ui",
-          "github_get_github_pr_write_ui",
-          "searxng_get_searxng_server_configuration",
-          "searxng_get_searxng_usage_guide"
+          "github_github-ui_get"
         ]
       },
       "researcher": {
@@ -130,16 +122,11 @@
           "mcp:nixos"
         ],
         "excludeTools": [
-          "github_get_github_get_me_ui",
-          "github_get_github_issue_write_ui",
-          "github_get_github_pr_edit_ui",
-          "github_get_github_pr_write_ui",
-          "searxng_get_searxng_server_configuration",
-          "searxng_get_searxng_usage_guide"
+          "github_github-ui_get"
         ]
       },
       "reviewer": {
-        "model": "litellm/glm-5.3",
+        "model": "litellm/glm-5.3-flash",
         "thinking": "max",
         "acceptanceRole": "read-only",
         "tools": [
@@ -152,6 +139,14 @@
           "write",
           "mcp:context7",
           "mcp:codegraph"
+        ],
+        "skills": [
+          "caveman",
+          "caveman-review",
+          "ponytail"
+        ],
+        "excludeTools": [
+          "github_github-ui_get"
         ]
       },
       "scout": {
@@ -169,10 +164,7 @@
           "mcp:codegraph"
         ],
         "excludeTools": [
-          "github_get_github_get_me_ui",
-          "github_get_github_issue_write_ui",
-          "github_get_github_pr_edit_ui",
-          "github_get_github_pr_write_ui"
+          "github_github-ui_get"
         ]
       },
       "worker": {
@@ -193,13 +185,14 @@
           "mcp:codegraph",
           "mcp:playwright"
         ],
+        "skills": [
+          "caveman",
+          "caveman-commit",
+          "tdd",
+          "ponytail"
+        ],
         "excludeTools": [
-          "github_get_github_get_me_ui",
-          "github_get_github_issue_write_ui",
-          "github_get_github_pr_edit_ui",
-          "github_get_github_pr_write_ui",
-          "searxng_get_searxng_server_configuration",
-          "searxng_get_searxng_usage_guide"
+          "github_github-ui_get"
         ]
       }
     }
@@ -221,5 +214,8 @@
       "enabled": false
     }
   },
-  "theme": "catppuccin-mocha"
+  "theme": "catppuccin-mocha",
+  "extensions": [
+    "-builtin:mcp"
+  ]
 }
