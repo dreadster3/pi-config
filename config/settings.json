@@ -3,7 +3,7 @@
   "defaultProvider": "litellm",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "1.0.1",
+  "lastChangelogVersion": "1.0.3",
   "defaultTools": [
     "+codemode"
   ],

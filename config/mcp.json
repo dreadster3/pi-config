@@ -2,6 +2,7 @@
   "mcpServers": {
     "github": {
       "url": "https://<litellm-url>/github/mcp",
+      "exposeResources": true,
       "auth": "oauth",
       "headers": {
         "x-litellm-api-key": "Bearer ${LITELLM_API_KEY}"
@@ -9,16 +10,20 @@
     },
     "searxng": {
       "url": "https://<litellm-url>/searxng/mcp",
+      "exposeResources": true,
       "auth": "bearer",
-      "bearerToken": "Bearer ${LITELLM_API_KEY}"
+      "bearerToken": "Bearer ${LITELLM_API_KEY}",
+      "directTools": ["searxng-searxng_web_search", "searxng-web_url_read"]
     },
     "terraform": {
       "url": "https://<litellm-url>/terraform/mcp",
+      "exposeResources": true,
       "auth": "bearer",
       "bearerToken": "Bearer ${LITELLM_API_KEY}"
     },
     "context7": {
       "url": "https://<litellm-url>/context7/mcp",
+      "exposeResources": true,
       "auth": "oauth",
       "headers": {
         "x-litellm-api-key": "Bearer ${LITELLM_API_KEY}"
@@ -26,11 +31,14 @@
     },
     "playwright": {
       "command": "bunx",
-      "args": ["@playwright/mcp@latest", "--isolated"]
+      "args": ["@playwright/mcp@latest", "--isolated"],
+      "exposeResources": true
     },
     "codegraph": {
       "command": "codegraph",
-      "args": ["serve", "--mcp"]
+      "args": ["serve", "--mcp"],
+      "exposeResources": true,
+      "directTools": true
     }
   }
 }
