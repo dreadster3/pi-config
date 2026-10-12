@@ -13,9 +13,9 @@
     "git:github.com/nicobailon/visual-explainer@6376b7727bb9b1d5d37ad3e4d96d969a6499917b",
     "npm:@plannotator/pi-extension",
     "git:github.com/dreadster3/pi-config",
-    "npm:@juicesharp/rpiv-ask-user-question@v2.12.0",
-    "npm:@juicesharp/rpiv-todo@v2.12.0",
-    "npm:@juicesharp/rpiv-btw@v2.12.0",
+    "npm:@juicesharp/rpiv-ask-user-question@v2.13.8",
+    "npm:@juicesharp/rpiv-todo@v2.13.8",
+    "npm:@juicesharp/rpiv-btw@v2.13.8",
     {
       "skills": [
         "skills/algorithmic-art",
@@ -32,13 +32,6 @@
     },
     {
       "skills": [
-        "skills/engineering/tdd",
-        "skills/engineering/improve-codebase-architecture"
-      ],
-      "source": "git:github.com/mattpocock/skills@d81f3a183412e71a5b1e84ca21bc1a35eea03a60"
-    },
-    {
-      "skills": [
         "skills/caveman",
         "skills/caveman-commit",
         "skills/caveman-review",
@@ -47,12 +40,13 @@
         "skills/caveman-stats",
         "skills/safe-refactor"
       ],
-      "source": "git:github.com/JuliusBrussee/caveman@b33a39554ed06cbc7d7d3198ff90c171e8043b69"
+      "source": "git:github.com/JuliusBrussee/caveman@e20f07e8152a0c0360f58c09e79d30ac94329991"
     },
     "npm:pi-mcp-adapter",
-    "npm:pi-provider-litellm@4.1.0",
-    "git:github.com/DietrichGebert/ponytail@c6ce46179874ea7368da0eb9e67c1ad5c10f08bc",
-    "npm:pi-intercom"
+    "npm:pi-provider-litellm@4.2.0",
+    "git:github.com/DietrichGebert/ponytail@6135ace05cd72736594fcf2c6830bea22780f91a",
+    "npm:pi-intercom",
+    "npm:@ff-labs/pi-fff"
   ],
   "subagents": {
     "defaultModel": "deepseek-v4.1-flash",
