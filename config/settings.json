@@ -3,16 +3,12 @@
   "defaultProvider": "litellm",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "1.0.3",
-  "defaultTools": [
-    "+codemode"
-  ],
+  "lastChangelogVersion": "1.1.0",
+  "defaultTools": ["+codemode"],
   "packages": [
     {
       "source": "npm:pi-subagents",
-      "prompts": [
-        "-prompts/review-loop.md"
-      ]
+      "prompts": ["-prompts/review-loop.md"]
     },
     "git:github.com/nicobailon/visual-explainer@6376b7727bb9b1d5d37ad3e4d96d969a6499917b",
     "npm:@plannotator/pi-extension",
@@ -54,7 +50,7 @@
       "source": "git:github.com/JuliusBrussee/caveman@b33a39554ed06cbc7d7d3198ff90c171e8043b69"
     },
     "npm:pi-mcp-adapter",
-    "npm:pi-provider-litellm@3.3.0",
+    "npm:pi-provider-litellm@4.1.0",
     "git:github.com/DietrichGebert/ponytail@c6ce46179874ea7368da0eb9e67c1ad5c10f08bc",
     "npm:pi-intercom"
   ],
@@ -76,11 +72,10 @@
           "mcp:github",
           "mcp:context7",
           "mcp:terraform",
+          "mcp:playwright",
           "mcp:codegraph"
         ],
-        "excludeTools": [
-          "github_github-ui_get"
-        ]
+        "excludeTools": ["github_github-ui_get"]
       },
       "oracle": {
         "model": "litellm/kimi-k3",
@@ -100,9 +95,7 @@
           "mcp:terraform",
           "mcp:codegraph"
         ],
-        "excludeTools": [
-          "github_github-ui_get"
-        ]
+        "excludeTools": ["github_github-ui_get"]
       },
       "researcher": {
         "model": "litellm/glm-5.3-flash",
@@ -121,9 +114,7 @@
           "mcp:terraform",
           "mcp:nixos"
         ],
-        "excludeTools": [
-          "github_github-ui_get"
-        ]
+        "excludeTools": ["github_github-ui_get"]
       },
       "reviewer": {
         "model": "litellm/glm-5.3-flash",
@@ -140,14 +131,8 @@
           "mcp:context7",
           "mcp:codegraph"
         ],
-        "skills": [
-          "caveman",
-          "caveman-review",
-          "ponytail"
-        ],
-        "excludeTools": [
-          "github_github-ui_get"
-        ]
+        "skills": ["caveman", "caveman-review", "ponytail"],
+        "excludeTools": ["github_github-ui_get"]
       },
       "scout": {
         "model": "litellm/deepseek-v4.1-flash",
@@ -163,9 +148,7 @@
           "mcp:github",
           "mcp:codegraph"
         ],
-        "excludeTools": [
-          "github_github-ui_get"
-        ]
+        "excludeTools": ["github_github-ui_get"]
       },
       "worker": {
         "model": "litellm/deepseek-v4.1-flash",
@@ -185,15 +168,8 @@
           "mcp:codegraph",
           "mcp:playwright"
         ],
-        "skills": [
-          "caveman",
-          "caveman-commit",
-          "tdd",
-          "ponytail"
-        ],
-        "excludeTools": [
-          "github_github-ui_get"
-        ]
+        "skills": ["caveman", "caveman-commit", "tdd", "ponytail"],
+        "excludeTools": ["github_github-ui_get"]
       }
     }
   },
@@ -216,6 +192,7 @@
   },
   "theme": "catppuccin-mocha",
   "extensions": [
-    "-builtin:mcp"
+    "-builtin:mcp",
+    "/home/dreadster/.hindsight/coding-agents/dist/pi.js"
   ]
 }
