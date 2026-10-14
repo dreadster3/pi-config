@@ -1,8 +1,13 @@
 {
+  "settings": {
+    "jev": {
+      "model": "jev-1.13"
+    }
+  },
   "mcpServers": {
     "github": {
       "url": "https://<litellm-url>/github/mcp",
-      "exposeResources": true,
+      "exposeResources": false,
       "auth": "oauth",
       "headers": {
         "x-litellm-api-key": "Bearer ${LITELLM_API_KEY}"
@@ -10,20 +15,20 @@
     },
     "searxng": {
       "url": "https://<litellm-url>/searxng/mcp",
-      "exposeResources": true,
+      "exposeResources": false,
       "auth": "bearer",
       "bearerToken": "Bearer ${LITELLM_API_KEY}",
       "directTools": ["searxng-searxng_web_search", "searxng-web_url_read"]
     },
     "terraform": {
       "url": "https://<litellm-url>/terraform/mcp",
-      "exposeResources": true,
+      "exposeResources": false,
       "auth": "bearer",
       "bearerToken": "Bearer ${LITELLM_API_KEY}"
     },
     "context7": {
       "url": "https://<litellm-url>/context7/mcp",
-      "exposeResources": true,
+      "exposeResources": false,
       "auth": "oauth",
       "headers": {
         "x-litellm-api-key": "Bearer ${LITELLM_API_KEY}"
@@ -32,12 +37,12 @@
     "playwright": {
       "command": "bunx",
       "args": ["@playwright/mcp@latest", "--isolated"],
-      "exposeResources": true
+      "exposeResources": false
     },
     "codegraph": {
       "command": "codegraph",
       "args": ["serve", "--mcp"],
-      "exposeResources": true,
+      "exposeResources": false,
       "directTools": true
     }
   }

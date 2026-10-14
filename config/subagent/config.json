@@ -1,0 +1,6 @@
+{
+  "forceTopLevelAsync": true,
+  "asyncByDefault": true,
+  "defaultSubagentContext": "fresh",
+  "maxSubagentSpawnsPerRun": 16
+}

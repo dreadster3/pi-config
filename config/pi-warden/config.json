@@ -1,0 +1,14 @@
+{
+  "typesafe": true,
+  "typesafeBackend": {
+    "label": "LiteLLM",
+    "host": "<host>",
+    "path": "/v1/systemone",
+    "keyEnv": "<keyEnv>",
+    "defaultModel": "jev-1.13"
+  },
+  "prefs": {
+    "enable": true,
+    "inject": false
+  }
+}

@@ -46,7 +46,8 @@
     "npm:pi-provider-litellm@4.2.0",
     "git:github.com/DietrichGebert/ponytail@6135ace05cd72736594fcf2c6830bea22780f91a",
     "npm:pi-intercom",
-    "npm:@ff-labs/pi-fff"
+    "npm:@ff-labs/pi-fff",
+    "npm:pi-warden"
   ],
   "subagents": {
     "defaultModel": "deepseek-v4.1-flash",
