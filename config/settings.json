@@ -3,12 +3,16 @@
   "defaultProvider": "litellm",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "1.1.0",
-  "defaultTools": ["+codemode"],
+  "lastChangelogVersion": "1.2.0",
+  "defaultTools": [
+    "+codemode"
+  ],
   "packages": [
     {
       "source": "npm:pi-subagents",
-      "prompts": ["-prompts/review-loop.md"]
+      "prompts": [
+        "-prompts/review-loop.md"
+      ]
     },
     "git:github.com/nicobailon/visual-explainer@6376b7727bb9b1d5d37ad3e4d96d969a6499917b",
     "npm:@plannotator/pi-extension",
@@ -70,7 +74,9 @@
           "mcp:playwright",
           "mcp:codegraph"
         ],
-        "excludeTools": ["github_github-ui_get"]
+        "excludeTools": [
+          "github_github-ui_get"
+        ]
       },
       "oracle": {
         "model": "litellm/kimi-k3",
@@ -90,7 +96,9 @@
           "mcp:terraform",
           "mcp:codegraph"
         ],
-        "excludeTools": ["github_github-ui_get"]
+        "excludeTools": [
+          "github_github-ui_get"
+        ]
       },
       "researcher": {
         "model": "litellm/glm-5.3-flash",
@@ -109,7 +117,9 @@
           "mcp:terraform",
           "mcp:nixos"
         ],
-        "excludeTools": ["github_github-ui_get"]
+        "excludeTools": [
+          "github_github-ui_get"
+        ]
       },
       "reviewer": {
         "model": "litellm/glm-5.3-flash",
@@ -126,8 +136,14 @@
           "mcp:context7",
           "mcp:codegraph"
         ],
-        "skills": ["caveman", "caveman-review", "ponytail"],
-        "excludeTools": ["github_github-ui_get"]
+        "skills": [
+          "caveman",
+          "caveman-review",
+          "ponytail"
+        ],
+        "excludeTools": [
+          "github_github-ui_get"
+        ]
       },
       "scout": {
         "model": "litellm/deepseek-v4.1-flash",
@@ -143,7 +159,9 @@
           "mcp:github",
           "mcp:codegraph"
         ],
-        "excludeTools": ["github_github-ui_get"]
+        "excludeTools": [
+          "github_github-ui_get"
+        ]
       },
       "worker": {
         "model": "litellm/deepseek-v4.1-flash",
@@ -163,8 +181,15 @@
           "mcp:codegraph",
           "mcp:playwright"
         ],
-        "skills": ["caveman", "caveman-commit", "tdd", "ponytail"],
-        "excludeTools": ["github_github-ui_get"]
+        "skills": [
+          "caveman",
+          "caveman-commit",
+          "tdd",
+          "ponytail"
+        ],
+        "excludeTools": [
+          "github_github-ui_get"
+        ]
       }
     }
   },
