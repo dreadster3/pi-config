@@ -3,7 +3,7 @@
   "defaultProvider": "litellm",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "1.2.0",
+  "lastChangelogVersion": "1.4.0",
   "defaultTools": [
     "+codemode"
   ],
@@ -51,7 +51,7 @@
     "git:github.com/DietrichGebert/ponytail@6135ace05cd72736594fcf2c6830bea22780f91a",
     "npm:pi-intercom",
     "npm:@ff-labs/pi-fff",
-    "npm:pi-warden"
+    "npm:pi-web-access"
   ],
   "subagents": {
     "defaultModel": "deepseek-v4.1-flash",
@@ -75,7 +75,13 @@
           "mcp:codegraph"
         ],
         "excludeTools": [
-          "github_github-ui_get"
+          "github_github-ui_get",
+          "github_get_github_get_me_ui",
+          "github_get_github_issue_write_ui",
+          "github_get_github_pr_edit_ui",
+          "github_get_github_pr_write_ui",
+          "terraform_get_terraform_terraform_module_development_guide",
+          "terraform_get_terraform_terraform_style_guide"
         ]
       },
       "oracle": {
@@ -97,7 +103,15 @@
           "mcp:codegraph"
         ],
         "excludeTools": [
-          "github_github-ui_get"
+          "github_github-ui_get",
+          "github_get_github_get_me_ui",
+          "github_get_github_issue_write_ui",
+          "github_get_github_pr_edit_ui",
+          "github_get_github_pr_write_ui",
+          "terraform_get_terraform_terraform_module_development_guide",
+          "terraform_get_terraform_terraform_style_guide",
+          "searxng_get_searxng_server_configuration",
+          "searxng_get_searxng_usage_guide"
         ]
       },
       "researcher": {
@@ -118,7 +132,15 @@
           "mcp:nixos"
         ],
         "excludeTools": [
-          "github_github-ui_get"
+          "github_github-ui_get",
+          "github_get_github_get_me_ui",
+          "github_get_github_issue_write_ui",
+          "github_get_github_pr_edit_ui",
+          "github_get_github_pr_write_ui",
+          "terraform_get_terraform_terraform_module_development_guide",
+          "terraform_get_terraform_terraform_style_guide",
+          "searxng_get_searxng_server_configuration",
+          "searxng_get_searxng_usage_guide"
         ]
       },
       "reviewer": {
@@ -160,7 +182,11 @@
           "mcp:codegraph"
         ],
         "excludeTools": [
-          "github_github-ui_get"
+          "github_github-ui_get",
+          "github_get_github_get_me_ui",
+          "github_get_github_issue_write_ui",
+          "github_get_github_pr_edit_ui",
+          "github_get_github_pr_write_ui"
         ]
       },
       "worker": {
@@ -188,7 +214,15 @@
           "ponytail"
         ],
         "excludeTools": [
-          "github_github-ui_get"
+          "github_github-ui_get",
+          "github_get_github_get_me_ui",
+          "github_get_github_issue_write_ui",
+          "github_get_github_pr_edit_ui",
+          "github_get_github_pr_write_ui",
+          "terraform_get_terraform_terraform_module_development_guide",
+          "terraform_get_terraform_terraform_style_guide",
+          "searxng_get_searxng_server_configuration",
+          "searxng_get_searxng_usage_guide"
         ]
       }
     }
@@ -214,5 +248,6 @@
   "extensions": [
     "-builtin:mcp",
     "/home/dreadster/.hindsight/coding-agents/dist/pi.js"
-  ]
+  ],
+  "showCacheMissNotices": true
 }
