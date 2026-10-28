@@ -1,8 +1,6 @@
 {
   "settings": {
-    "jev": {
-      "model": "jev-1.14"
-    },
+    "semanticSearch": { "model": "litellm/jev-1.14" },
     "approveTools": "destructive"
   },
   "mcpServers": {
@@ -31,6 +29,11 @@
         "x-litellm-api-key": "Bearer ${LITELLM_API_KEY}"
       }
     },
+    "excalidraw": {
+      "url": "https://<litellm-url>/excalidraw/mcp",
+      "auth": "bearer",
+      "bearerToken": "${LITELLM_API_KEY}"
+    },
     "playwright": {
       "command": "playwright-mcp",
       "args": ["--isolated"]
@@ -44,11 +47,6 @@
       "command": "codegraph",
       "args": ["serve", "--mcp"],
       "directTools": true
-    },
-    "excalidraw": {
-      "url": "https://<litellm-url>/excalidraw/mcp",
-      "auth": "bearer",
-      "bearerToken": "${LITELLM_API_KEY}"
     }
   }
 }

@@ -2,5 +2,13 @@
   "forceTopLevelAsync": true,
   "asyncByDefault": true,
   "defaultSubagentContext": "fresh",
-  "maxSubagentSpawnsPerRun": 16
+  "worktree": true,
+  "worktreeBaseDir": ".pi/worktress",
+  "artifactDir": "project",
+  "missions": {
+    "enabled": true,
+    "directory": ".pi/subagent/missions",
+    "globalIndex": true,
+    "retainTerminal": 200
+  }
 }
