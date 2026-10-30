@@ -1,0 +1,44 @@
+{
+  "preset": "custom",
+  "density": "compact",
+  "segmentLayout": [
+    {
+      "id": "brand",
+      "visible": false
+    },
+    {
+      "id": "activity",
+      "visible": false
+    },
+    {
+      "id": "metrics",
+      "visible": true
+    },
+    {
+      "id": "performance",
+      "visible": true
+    },
+    {
+      "id": "context",
+      "visible": true
+    },
+    {
+      "id": "model",
+      "visible": true
+    },
+    {
+      "id": "git",
+      "visible": true
+    },
+    {
+      "id": "statuses",
+      "visible": true
+    },
+    {
+      "id": "menu",
+      "visible": false
+    }
+  ],
+  "showFooter": true,
+  "showSidebarToolNames": false
+}

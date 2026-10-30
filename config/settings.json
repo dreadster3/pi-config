@@ -48,7 +48,8 @@
     "npm:pi-intercom",
     "npm:@ff-labs/pi-fff",
     "npm:pi-web-access",
-    "npm:pi-sandbox"
+    "npm:pi-sandbox",
+    "npm:pi-atelier"
   ],
   "subagents": {
     "defaultModel": "deepseek-v4.1-flash",
