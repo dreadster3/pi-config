@@ -7,7 +7,7 @@
   "artifactDir": "project",
   "missions": {
     "enabled": true,
-    "directory": ".pi/subagent/missions",
+    "directory": ".pi/subagents/missions",
     "globalIndex": true,
     "retainTerminal": 200
   }
