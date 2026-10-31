@@ -20,7 +20,8 @@
       "~/go/bin",
       "~/.local",
       "~/.nix-profile",
-      "~/.cache"
+      "~/.cache",
+      "/nix/store"
     ],
     "allowWrite": [".", "/tmp", "~/.pi/"],
     "denyWrite": [".env", ".env.*", "*.pem", "*.key"]
