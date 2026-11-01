@@ -21,6 +21,7 @@
       "~/.local",
       "~/.nix-profile",
       "~/.cache",
+      "~/.ssh/id_ed25519_sign",
       "~/.ssh/*.pub",
       "/nix/store"
     ],
