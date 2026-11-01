@@ -21,6 +21,7 @@
       "~/.local",
       "~/.nix-profile",
       "~/.cache",
+      "~/.ssh/*.pub",
       "/nix/store"
     ],
     "allowWrite": [".", "/tmp", "~/.pi/"],
