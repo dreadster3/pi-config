@@ -8,7 +8,13 @@
     "allowLocalBinding": true,
     "allowUnauthenticatedSocksProxy": true,
     "allowAllUnixSockets": true,
-    "allowedDomains": ["localhost", "127.0.0.1", "*.github.com"],
+    "allowedDomains": [
+      "localhost",
+      "127.0.0.1",
+      "github.com",
+      "*.github.com",
+      "raw.githubusercontent.com"
+    ],
     "deniedDomains": []
   },
   "filesystem": {
@@ -16,6 +22,7 @@
     "allowRead": [
       ".",
       "~/.config",
+      "~/.gitconfig",
       "~/.cargo",
       "~/go/bin",
       "~/.local",
@@ -23,6 +30,7 @@
       "~/.cache",
       "~/.ssh/id_ed25519_sign",
       "~/.ssh/*.pub",
+      "~/Library",
       "/nix/store"
     ],
     "allowWrite": [".", "/tmp", "~/.pi/"],
