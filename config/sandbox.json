@@ -1,6 +1,7 @@
 {
   "enabled": true,
   "enableAccessRequestTool": true,
+  "sandboxUserShell": true,
   "permissionPromptTimeoutSeconds": 600,
   "allowBrowserProcess": true,
   "network": {
