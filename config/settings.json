@@ -3,12 +3,16 @@
   "defaultProvider": "litellm",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "1.4.0",
-  "defaultTools": ["+codemode"],
+  "lastChangelogVersion": "1.5.0",
+  "defaultTools": [
+    "+codemode"
+  ],
   "packages": [
     {
       "source": "npm:pi-subagents",
-      "prompts": ["-prompts/review-loop.md"]
+      "prompts": [
+        "-prompts/review-loop.md"
+      ]
     },
     "git:github.com/nicobailon/visual-explainer@5f378868e0ea745a6284b51e710c390f0c76f72c",
     "npm:@plannotator/pi-extension",
@@ -43,13 +47,15 @@
       "source": "git:github.com/JuliusBrussee/caveman@d262ab3882952a59312ff3537cd86d894523c5ab"
     },
     "npm:pi-mcp-adapter",
-    "npm:pi-provider-litellm@4.6.0",
+    "npm:pi-provider-litellm@4.7.2",
     "npm:@dietrichgebert/ponytail",
     "npm:pi-intercom",
     "npm:@ff-labs/pi-fff",
     "npm:pi-web-access",
-    "npm:pi-sandbox",
-    "npm:pi-atelier"
+    "npm:pi-atelier",
+    {
+      "source": "/home/dreadster/.config/nono/packages/nolabs-ai/pi"
+    }
   ],
   "subagents": {
     "defaultModel": "deepseek-v4.1-flash",
@@ -152,8 +158,14 @@
           "mcp:context7",
           "mcp:codegraph"
         ],
-        "skills": ["caveman", "caveman-review", "ponytail"],
-        "excludeTools": ["github_github-ui_get"]
+        "skills": [
+          "caveman",
+          "caveman-review",
+          "ponytail"
+        ],
+        "excludeTools": [
+          "github_github-ui_get"
+        ]
       },
       "scout": {
         "model": "litellm/deepseek-v4.1-flash",
@@ -195,7 +207,12 @@
           "mcp:codegraph",
           "mcp:playwright"
         ],
-        "skills": ["caveman", "caveman-commit", "tdd", "ponytail"],
+        "skills": [
+          "caveman",
+          "caveman-commit",
+          "tdd",
+          "ponytail"
+        ],
         "excludeTools": [
           "github_github-ui_get",
           "github_get_github_get_me_ui",
@@ -232,5 +249,13 @@
     "-builtin:mcp",
     "/home/dreadster/.hindsight/coding-agents/dist/pi.js"
   ],
-  "showCacheMissNotices": true
+  "showCacheMissNotices": true,
+  "extensionChangelogVersions": {
+    "{\"source\":\"npm:pi-subagents\",\"scope\":\"user\"}": "0.87.0",
+    "{\"source\":\"git:github.com/nicobailon/visual-explainer@5f378868e0ea745a6284b51e710c390f0c76f72c\",\"scope\":\"user\"}": "0.14.0",
+    "{\"source\":\"npm:pi-mcp-adapter\",\"scope\":\"user\"}": "7.0.1",
+    "{\"source\":\"npm:pi-web-access\",\"scope\":\"user\"}": "0.47.0",
+    "{\"source\":\"npm:pi-atelier\",\"scope\":\"user\"}": "0.18.0",
+    "{\"source\":\"git:github.com/Kilo-Org/kilo-pi-provider@v2026.09.3\",\"scope\":\"user\"}": "2026.09.3"
+  }
 }
