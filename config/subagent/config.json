@@ -10,5 +10,9 @@
     "directory": ".pi/subagents/missions",
     "globalIndex": true,
     "retainTerminal": 200
+  },
+  "fleetKeybindings": {
+    "pageUp": ["ctrl+u", "pageUp"],
+    "pageDown": ["ctrl+d", "pageDown"]
   }
 }
