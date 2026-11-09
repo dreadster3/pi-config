@@ -2,8 +2,8 @@
   "forceTopLevelAsync": true,
   "asyncByDefault": true,
   "defaultSubagentContext": "fresh",
-  "worktree": true,
-  "worktreeBaseDir": ".pi/worktress",
+  "worktree": false,
+  "worktreeBaseDir": ".pi/worktrees",
   "artifactDir": "project",
   "missions": {
     "enabled": true,
